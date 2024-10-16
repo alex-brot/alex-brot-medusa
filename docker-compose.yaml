@@ -1,6 +1,6 @@
 services:
   postgres_alex-brot:
-    image: postgres:13
+    image: postgres:17
     container_name: postgres_alex-brot
     environment:
       POSTGRES_USER: alex-brot
