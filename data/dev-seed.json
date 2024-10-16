@@ -1,0 +1,50 @@
+{
+  "store": {
+    "currencies": [
+      "eur",
+      "usd"
+    ]
+  },
+  "users": [
+    {
+      "email": "dev@brot.at",
+      "password": "breadlover"
+    }
+  ],
+  "regions": [
+    {
+      "id": "test-region-eu",
+      "name": "EU",
+      "currency_code": "eur",
+      "tax_rate": 0,
+      "payment_providers": [
+        "manual"
+      ],
+      "fulfillment_providers": [
+        "manual"
+      ],
+      "countries": [
+        "at"
+      ]
+    }
+  ],
+  "shipping_options": [
+    {
+      "name": "PostFake Standard",
+      "region_id": "test-region-eu",
+      "provider_id": "manual",
+      "data": {
+        "id": "manual-fulfillment"
+      },
+      "price_type": "flat_rate",
+      "amount": 1000
+    }
+  ],
+  "products": [],
+  "categories": [],
+  "publishable_api_keys": [
+    {
+      "title": "Development"
+    }
+  ]
+}
