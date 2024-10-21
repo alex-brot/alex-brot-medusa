@@ -71,6 +71,6 @@ jobs:
           token: ${{ secrets.K3S_REPO_PAT }}
           repository: alex-brot/deployments
           head: automated-branch
-          base: master
+          base: main
           title: "[alex-brot-backend] Automated image version bump to ${{ env.TAG }}"
           body: "This PR was automatically created by the CI pipeline in the https://github.com/alex-brot/alex-brot-shop repository to bump the image version of the alex-brot-backend service to ${{ env.TAG }}."
