@@ -1,4 +1,4 @@
-FROM node:17.1.0 as builder
+FROM node:18 as builder
 
 WORKDIR /app/admin
 
