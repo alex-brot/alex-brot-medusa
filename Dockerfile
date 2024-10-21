@@ -10,18 +10,11 @@ RUN rm -rf node_modules
 
 RUN apt-get update
 
-RUN yarn add sharp
-
-RUN yarn global add gatsby-cli
-
 RUN yarn install
 
-RUN gatsby build
+RUN yarn build:admin
 
-FROM nginx
+EXPOSE 7001
+EXPOSE 9000
 
-EXPOSE 80
-
-COPY --from=builder /app/admin/public /usr/share/nginx/html
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["yarn", "start"]
