@@ -41,7 +41,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          #platforms: linux/amd64,linux/arm64/v8
+          platforms: linux/amd64,linux/arm64/v8
           tags: |
             ${{ env.REGISTRY }}/${{ env.GITHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
             ${{ env.REGISTRY }}/${{ env.GITHUB_USER }}/${{ env.IMAGE_NAME }}:latest
