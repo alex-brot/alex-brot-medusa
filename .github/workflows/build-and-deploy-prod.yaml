@@ -50,6 +50,7 @@ jobs:
   bump-deployment-image:
     needs: build-and-push
     runs-on: ubuntu-latest
+    steps:
       - name: Checkout k8s Repo
         uses: actions/checkout@v4
         with:
