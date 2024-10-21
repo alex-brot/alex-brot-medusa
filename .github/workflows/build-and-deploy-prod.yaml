@@ -56,6 +56,10 @@ jobs:
         with:
           repository: alex-brot/deployments
 
+      - name: Extract Tag
+        id: extract_tag
+        run: echo "TAG=${{ github.ref }}" | sed 's/refs\/tags\///g' >> $GITHUB_ENV
+
       - name: Modify file
         run: |
           sed -i 's|\(image: ghcr.io/alex-brot/alex-brot-medusa:\)v[0-9]\+\.[0-9]\+\.[0-9]\+|\1${{ env.TAG }}|' ./alex-brot/overlays/prod/kustomization.yaml
