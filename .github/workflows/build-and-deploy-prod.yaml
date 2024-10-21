@@ -1,0 +1,76 @@
+name: build-and-deploy-prod
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  GITHUB_USER: ${{ github.repository_owner }}
+  IMAGE_NAME: "alex-brot-backend"
+  REGISTRY: "ghcr.io"
+
+permissions:
+  packages: write
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Only on main brach
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          version: v0.7.0
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+
+      - name: Extract Tag
+        id: extract_tag
+        run: echo "TAG=${{ github.ref }}" | sed 's/refs\/tags\///g' >> $GITHUB_ENV
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./src/main/docker/Dockerfile.jvm
+          push: true
+          platforms: linux/amd64,linux/arm64/v8
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.GITHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+            ${{ env.REGISTRY }}/${{ env.GITHUB_USER }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Checkout k8s Repo
+        uses: actions/checkout@v4
+        with:
+          repository: alex-brot/deployments
+
+      - name: Modify file
+        run: |
+          sed -i 's|\(image: ghcr.io/alex-brot/alex-brot-medusa:\)v[0-9]\+\.[0-9]\+\.[0-9]\+|\1${{ env.TAG }}|' ./alex-brot/overlays/prod/kustomization.yaml
+
+      - name: Commit and Push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ./alex-brot/overlays/prod/kustomization.yaml
+          git commit -m "Automated image version bump to ${{ env.TAG }}"
+          git config --unset-all http.https://github.com/.extraheader
+          git push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:automated-branch
+
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.K3S_REPO_PAT }}
+          repository: alex-brot/deployments
+          head: automated-branch
+          base: master
+          title: "[alex-brot-backend] Automated image version bump to ${{ env.TAG }}"
+          body: "This PR was automatically created by the CI pipeline in the https://github.com/alex-brot/alex-brot-shop repository to bump the image version of the alex-brot-backend service to ${{ env.TAG }}."
