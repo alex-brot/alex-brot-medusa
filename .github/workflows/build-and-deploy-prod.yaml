@@ -67,15 +67,14 @@ jobs:
           git add ./alex-brot/overlays/prod/kustomization.yaml
           git commit -m "Automated image version bump to ${{ env.TAG }}"
           git config --unset-all http.https://github.com/.extraheader
-          git push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:automated-branch
-
+          git push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:automated-branch-${{ github.run_number }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.K3S_REPO_PAT }}
           repository: alex-brot/deployments
-          head: automated-branch
+          head: automated-branch-${{ github.run_number }}
           base: main
           title: "[alex-brot-backend] Automated image version bump to ${{ env.TAG }}"
           body: "This PR was automatically created by the CI pipeline in the https://github.com/alex-brot/alex-brot-shop repository to bump the image version of the alex-brot-backend service to ${{ env.TAG }}."
