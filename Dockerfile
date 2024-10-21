@@ -8,6 +8,8 @@ COPY . .
 
 RUN rm -rf node_modules
 
+RUN yarn install
+
 RUN yarn build:admin
 
 EXPOSE 7001
