@@ -7,7 +7,7 @@ on:
 
 env:
   GITHUB_USER: ${{ github.repository_owner }}
-  IMAGE_NAME: "alex-brot-backend"
+  IMAGE_NAME: "alex-brot-medusa"
   REGISTRY: "ghcr.io"
 
 permissions:
@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     # Only on main brach
-    if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
