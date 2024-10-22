@@ -9,6 +9,7 @@ env:
   GITHUB_USER: ${{ github.repository_owner }}
   IMAGE_NAME: "alex-brot-medusa"
   REGISTRY: "ghcr.io"
+  DEPLOYMENTS_REPOSITORY: "alex-brot/deployments"
 
 permissions:
   packages: write
@@ -77,10 +78,10 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.K3S_REPO_PAT }}
-          repository: alex-brot/deployments
+          repository: ${{ env.DEPLOYMENTS_REPOSITORY }}
           head: auto-bump-prod-image-${{ github.run_number }}
           branch: auto-bump-prod-image-${{ github.run_number }}
           base: main
           delete-branch: true
-          title: "[alex-brot-backend] Automated image version bump to ${{ env.TAG }}"
-          body: "This PR was automatically created by the CI pipeline in the https://github.com/alex-brot/alex-brot-medusa repository to bump the image version of the alex-brot-backend service to ${{ env.TAG }}."
+          title: "[${{github.action_repository}}] Automated image version bump to ${{ env.TAG }}"
+          body: "This PR was automatically created by the CI pipeline in the https://github.com/${{ github.repository_owner }}/${{ github.action_repository }} repository to bump the image version of the ${{ github.action_repository }} service to ${{ env.TAG }}."
