@@ -12,7 +12,6 @@ RUN yarn install
 
 RUN yarn build:admin
 
-EXPOSE 7001
 EXPOSE 9000
 
 ENTRYPOINT ["yarn", "start"]
