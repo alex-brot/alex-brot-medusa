@@ -17,650 +17,125 @@ export default function getSampleProducts ({
 }: SampleProductsOptions): AdminPostProductsReq[] {
   return [
     {
-      title: "Medusa T-Shirt",
+      title: "Nussbrötchen",
       status: ProductStatus.PUBLISHED,
       collection_id,
       discountable: true,
       subtitle: null,
-      description: "Reimagine the feeling of a classic T-shirt. With our cotton T-shirts, everyday essentials no longer have to be ordinary.",
-      handle: "medusa-t-shirt",
+      description: "",
       is_giftcard: false,
       weight: 400,
       images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-black-back.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/tee-white-back.png"
+        "http://localhost:9000/uploads/1731245227286-IMG-20190624-WA0004.jpg",
       ],
-      options: [
-        {
-          title: "Size",
-        },
-        {
-          title: "Color",
-        }
-      ],
-      variants: [
-        {
-          title: "S / Black",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2200
-            }
-          }),
-          options: [
-            {
-              value: "S"
-            },
-            {
-              value: "Black"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "S / White",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2200
-            }
-          }),
-          options: [
-            {
-              value: "S"
-            },
-            {
-              value: "White"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "M / Black",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2200
-            }
-          }),
-          options: [
-            {
-              value: "M"
-            },
-            {
-              value: "Black"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "M / White",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2200
-            }
-          }),
-          options: [
-            {
-              value: "M"
-            },
-            {
-              value: "White"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "L / Black",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2200
-            }
-          }),
-          options: [
-            {
-              value: "L"
-            },
-            {
-              value: "Black"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "L / White",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2200
-            }
-          }),
-          options: [
-            {
-              value: "L"
-            },
-            {
-              value: "White"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "XL / Black",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2200
-            }
-          }),
-          options: [
-            {
-              value: "XL"
-            },
-            {
-              value: "Black"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "XL / White",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2200
-            }
-          }),
-          options: [
-            {
-              value: "XL"
-            },
-            {
-              value: "White"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        }
-      ]
+      options: [],
+      variants: [],
     },
     {
-      title: "Medusa Sweatshirt",
+      title: "Baguette",
       status: ProductStatus.PUBLISHED,
-      discountable: true,
       collection_id,
+      discountable: true,
       subtitle: null,
-      description: "Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.",
-      handle: "sweatshirt",
+      description: "",
       is_giftcard: false,
       weight: 400,
-      images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-back.png"
-      ],
-      options: [
-        {
-          title: "Size",
-        }
-      ],
-      variants: [
-        {
-          title: "S",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 3350
-            }
-          }),
-          options: [
-            {
-              value: "S"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "M",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 3350
-            }
-          }),
-          options: [
-            {
-              value: "M"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "L",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 3350
-            }
-          }),
-          options: [
-            {
-              value: "L"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "XL",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 3350
-            }
-          }),
-          options: [
-            {
-              value: "XL"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        }
-      ]
+      images: ["http://localhost:9000/uploads/1731245124599-_DSC4692.jpg"],
+      options: [],
+      variants: [],
     },
     {
-      title: "Medusa Sweatpants",
+      title: "Haferbrot",
       status: ProductStatus.PUBLISHED,
-      discountable: true,
       collection_id,
+      discountable: true,
       subtitle: null,
-      description: "Reimagine the feeling of classic sweatpants. With our cotton sweatpants, everyday essentials no longer have to be ordinary.",
-      handle: "sweatpants",
+      description: "",
       is_giftcard: false,
       weight: 400,
-      images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatpants-gray-back.png"
-      ],
-      options: [
-        {
-          title: "Size",
-        }
-      ],
-      variants: [
-        {
-          title: "S",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 3350
-            }
-          }),
-          options: [
-            {
-              value: "S"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "M",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 3350
-            }
-          }),
-          options: [
-            {
-              value: "M"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "L",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 3350
-            }
-          }),
-          options: [
-            {
-              value: "L"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "XL",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 3350
-            }
-          }),
-          options: [
-            {
-              value: "XL"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        }
-      ]
+      images: ["http://localhost:9000/uploads/1731244972376-_DSC3482.jpg"],
+      options: [],
+      variants: [],
     },
     {
-      title: "Medusa Shorts",
+      title: "Käsebrötchen",
       status: ProductStatus.PUBLISHED,
-      discountable: true,
       collection_id,
+      discountable: true,
       subtitle: null,
-      description: "Reimagine the feeling of classic shorts. With our cotton shorts, everyday essentials no longer have to be ordinary.",
-      handle: "shorts",
+      description: "",
       is_giftcard: false,
       weight: 400,
       images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/shorts-vintage-back.png"
+        "http://localhost:9000/uploads/1731245200240-IMG-20190604-WA0000.jpg",
       ],
-      options: [
-        {
-          title: "Size",
-        }
-      ],
-      variants: [
-        {
-          title: "S",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2850
-            }
-          }),
-          options: [
-            {
-              value: "S"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "M",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2850
-            }
-          }),
-          options: [
-            {
-              value: "M"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "L",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2850
-            }
-          }),
-          options: [
-            {
-              value: "L"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "XL",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 2850
-            }
-          }),
-          options: [
-            {
-              value: "XL"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        }
-      ]
+      options: [],
+      variants: [],
     },
     {
-      title: "Medusa Hoodie",
+      title: "Nussbrot",
       status: ProductStatus.PUBLISHED,
-      discountable: true,
       collection_id,
+      discountable: true,
       subtitle: null,
-      description: "Reimagine the feeling of a classic hoodie. With our cotton hoodie, everyday essentials no longer have to be ordinary.",
-      handle: "hoodie",
+      description: "",
       is_giftcard: false,
       weight: 400,
-      images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/black_hoodie_front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/black_hoodie_back.png"
-      ],
-      options: [
-        {
-          title: "Size",
-        }
-      ],
-      variants: [
-        {
-          title: "S",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 4150
-            }
-          }),
-          options: [
-            {
-              value: "S"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "M",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 4150
-            }
-          }),
-          options: [
-            {
-              value: "M"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "L",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 4150
-            }
-          }),
-          options: [
-            {
-              value: "L"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "XL",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 4150
-            }
-          }),
-          options: [
-            {
-              value: "XL"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        }
-      ]
+      images: ["http://localhost:9000/uploads/1731245034341-_DSC3883.jpg"],
+      options: [],
+      variants: [],
     },
     {
-      title: "Medusa Longsleeve",
+      title: "Roggenbrötchen",
       status: ProductStatus.PUBLISHED,
-      discountable: true,
       collection_id,
+      discountable: true,
       subtitle: null,
-      description: "Reimagine the feeling of a classic longsleeve. With our cotton longsleeve, everyday essentials no longer have to be ordinary.",
-      handle: "longsleeve",
+      description: "",
       is_giftcard: false,
       weight: 400,
-      images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/ls-black-front.png",
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/ls-black-back.png"
-      ],
-      options: [
-        {
-          title: "Size",
-        }
-      ],
-      variants: [
-        {
-          title: "S",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 4150
-            }
-          }),
-          options: [
-            {
-              value: "S"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "M",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 4150
-            }
-          }),
-          options: [
-            {
-              value: "M"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "L",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 4150
-            }
-          }),
-          options: [
-            {
-              value: "L"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        },
-        {
-          title: "XL",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 4150
-            }
-          }),
-          options: [
-            {
-              value: "XL"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        }
-      ]
+      images: ["http://localhost:9000/uploads/1731245034341-_DSC3883.jpg"],
+      options: [],
+      variants: [],
     },
     {
-      title: "Medusa Coffee Mug",
+      title: "Schwarzbrot",
       status: ProductStatus.PUBLISHED,
-      discountable: true,
       collection_id,
+      discountable: true,
       subtitle: null,
-      description: "Every programmer's best friend.",
-      handle: "coffee-mug",
+      description: "",
       is_giftcard: false,
       weight: 400,
-      images: [
-        "https://medusa-public-images.s3.eu-west-1.amazonaws.com/coffee-mug.png"
-      ],
-      options: [
-        {
-          title: "Size",
-        }
-      ],
-      variants: [
-        {
-          title: "One Size",
-          prices: regions.map((region) => {
-            return {
-              currency_code: region.currency_code,
-              amount: 1200
-            }
-          }),
-          options: [
-            {
-              value: "One Size"
-            }
-          ],
-          inventory_quantity: 100,
-          manage_inventory: true
-        }
-      ]
-    }
-  ]
+      images: ["http://localhost:9000/uploads/1731244941595-_DSC3225.jpg"],
+      options: [],
+      variants: [],
+    },
+    {
+      title: "Schwarzbrot Brötchen",
+      status: ProductStatus.PUBLISHED,
+      collection_id,
+      discountable: true,
+      subtitle: null,
+      description: "",
+      is_giftcard: false,
+      weight: 400,
+      images: ["http://localhost:9000/uploads/1731245157906-DSCF4518.jpg"],
+      options: [],
+      variants: [],
+    },
+    {
+      title: "Vollkornbrot",
+      status: ProductStatus.PUBLISHED,
+      collection_id,
+      discountable: true,
+      subtitle: null,
+      description: "",
+      is_giftcard: false,
+      weight: 400,
+      images: ["http://localhost:9000/uploads/1731245080205-_DSC3929.jpg"],
+      options: [],
+      variants: [],
+    },
+  ];
 }
