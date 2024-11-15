@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+  pull_request:
 
 env:
   GITHUB_USER: ${{ github.repository_owner }}
@@ -61,16 +62,4 @@ jobs:
           git add ./alex-brot/overlays/prod/kustomization.yaml
           git commit -m "Automated image version bump to ${{ github.run_id }}"
           git config --unset-all http.https://github.com/.extraheader
-          git push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:auto-bump-prod-image-${{ github.run_id }}
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.K3S_REPO_PAT }}
-          repository: ${{ env.DEPLOYMENTS_REPOSITORY }}
-          head: auto-bump-prod-image-${{ github.run_id }}
-          branch: auto-bump-prod-image-${{ github.run_id }}
-          base: main
-          delete-branch: true
-          title: "[${{github.repository}}] Automated image version bump to ${{ github.run_id }}"
-          body: "This PR was automatically created by the CI pipeline in the https://github.com/${{ github.repository }} repository to bump the image version of the ${{ github.repository }} service to ${{ github.run_id }}."
+          push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:main
