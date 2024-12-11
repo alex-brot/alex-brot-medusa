@@ -62,4 +62,4 @@ jobs:
           git add .
           git commit -m "Automated image version bump to ${{ github.run_id }}"
           git config --unset-all http.https://github.com/.extraheader
-          push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:main
+          git push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:main
