@@ -10,7 +10,7 @@ RUN rm -rf node_modules
 
 RUN npm install
 
-RUN npm build:admin
+RUN npm build
 
 EXPOSE 9000
 
