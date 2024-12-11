@@ -14,4 +14,4 @@ RUN npm run build
 
 EXPOSE 9000
 
-ENTRYPOINT ["sh", "-c", "npx medusa db:migrate && npm start"]
+ENTRYPOINT ["sh", "-c", "npx medusa db:migrate && npm run start"]
