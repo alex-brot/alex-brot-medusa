@@ -38,4 +38,4 @@ RUN npm i --only=production
 
 EXPOSE 9000
 
-ENTRYPOINT ["sh", "-c", "npx medusa migrations run && npx medusa start"]
+ENTRYPOINT ["sh", "-c", "npx medusa db:migrate && npx medusa start"]
