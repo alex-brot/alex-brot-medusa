@@ -25,8 +25,6 @@ RUN mkdir dist
 
 COPY package*.json ./
 
-COPY develop.sh .
-
 COPY medusa-config.* ./
 
 #RUN apt-get update
