@@ -38,8 +38,6 @@ RUN npm install -g @medusajs/medusa-cli
 
 RUN npm i --only=production
 
-RUN chmod 550 ./develop.sh
-
 EXPOSE 9000
 
-ENTRYPOINT ["./develop.sh", "start"]
+ENTRYPOINT ["sh", "-c", "npx medusa migrations run && npx medusa start"]
