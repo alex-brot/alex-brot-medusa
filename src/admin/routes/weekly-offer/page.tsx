@@ -40,7 +40,7 @@ const WeeklyOfferPage: React.FC = () => {
     }
   };
   const { data } = useQuery<AdminProductsResponse>({
-    queryFn: () => sdk.client.fetch(`/admin/product`),
+    queryFn: () => sdk.client.fetch(`/admin/products`),
     queryKey: [["products"]],
   });
 

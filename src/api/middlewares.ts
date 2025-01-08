@@ -13,7 +13,7 @@ export default defineMiddlewares({
       matcher: "/admin/products/",
     },
     {
-      matcher: "/admin/brands",
+      matcher: "/admin/products",
       method: "GET",
       middlewares: [
         validateAndTransformQuery(GetProductsParams, {
