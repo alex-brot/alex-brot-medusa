@@ -21,12 +21,13 @@ FROM node:23.6.0-alpine3.20
 
 WORKDIR /app/medusa
 
-RUN mkdir dist
+COPY tsconfig.json ./
 
 COPY package*.json ./
 
-
 COPY medusa-config.prod.ts ./medusa-config.ts
+
+COPY src ./src
 
 #RUN apt-get update
 #
