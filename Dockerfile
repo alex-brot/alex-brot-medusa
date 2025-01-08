@@ -29,6 +29,10 @@ COPY medusa-config.prod.ts ./medusa-config.ts
 
 COPY src ./src
 
+MKDIR ./.medusa/
+
+COPY --from=builder /app/medusa/.medusa ./.medusa
+
 #RUN apt-get update
 #
 #RUN apt-get install -y python
