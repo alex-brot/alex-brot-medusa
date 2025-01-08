@@ -38,7 +38,7 @@ RUN npm install -g @medusajs/medusa-cli
 
 RUN npm i --only=production
 
-RUN CHMOD +X ./develop.sh
+RUN CHMOD 550 ./develop.sh
 
 EXPOSE 9000
 
