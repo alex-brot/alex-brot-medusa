@@ -25,7 +25,9 @@ RUN mkdir dist
 
 COPY package*.json ./
 
-COPY medusa-config.* ./
+COPY medusa-config.dev.ts ./
+COPY medusa-config.prod.ts ./
+COPY medusa-config.ts ./
 
 #RUN apt-get update
 #
