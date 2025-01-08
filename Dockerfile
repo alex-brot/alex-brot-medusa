@@ -29,7 +29,7 @@ COPY medusa-config.prod.ts ./medusa-config.ts
 
 COPY src ./src
 
-MKDIR ./.medusa/
+RUN mkdir ./.medusa/
 
 COPY --from=builder /app/medusa/.medusa ./.medusa
 
