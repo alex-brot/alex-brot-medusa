@@ -1,4 +1,4 @@
-import { loadEnv, defineConfig, Modules } from "@medusajs/framework/utils";
+import { loadEnv, defineConfig } from "@medusajs/framework/utils";
 
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
@@ -30,6 +30,9 @@ export default defineConfig({
     },
     {
       resolve: "./src/modules/allergen-module",
+    },
+    {
+      resolve: "./src/modules/weekly-offers-module",
     },
     {
       resolve: "@medusajs/medusa/file",
