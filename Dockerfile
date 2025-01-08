@@ -38,8 +38,6 @@ RUN npm install -g @medusajs/medusa-cli
 
 RUN npm i --only=production
 
-COPY --from=builder /app/medusa/dist ./dist
-
 EXPOSE 9000
 
 ENTRYPOINT ["./develop.sh", "start"]
