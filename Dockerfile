@@ -38,6 +38,8 @@ RUN npm install -g @medusajs/medusa-cli
 
 RUN npm i --only=production
 
+RUN CHMOD +X ./develop.sh
+
 EXPOSE 9000
 
 ENTRYPOINT ["./develop.sh", "start"]
