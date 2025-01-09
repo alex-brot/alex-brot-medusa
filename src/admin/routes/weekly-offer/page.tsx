@@ -11,6 +11,8 @@ type AdminProductsResponse = {
   products: AdminProduct[];
 };
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 const WeeklyOfferPage: React.FC = () => {
   const [selctedProductsIds, setSelctedProductsIds] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
@@ -39,6 +41,20 @@ const WeeklyOfferPage: React.FC = () => {
       setSelctedProductsIds([...selctedProductsIds, id]);
     }
   };
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (data) => sdk.client.fetch("/admin/weekly-offers", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["weekly-offers"] });
+    },
+  });
+
+
   const { data } = useQuery<AdminProductsResponse>({
     queryFn: () => sdk.client.fetch(`/admin/products`),
     queryKey: [["products"]],
