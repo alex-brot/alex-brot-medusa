@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Table, Button } from "@medusajs/ui";
 import { ProductTableRow } from "../../routes/weekly-offer/page";
 import { AdminProduct } from "@medusajs/framework/types";
