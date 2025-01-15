@@ -27,7 +27,7 @@ export default defineMiddlewares({
       matcher: "/admin/brands",
       method: "POST",
       //TODO: fix validator
-      middlewares: [validateAndTransformBody(PostAdminCreateWeeklyOffer as any)],
+      //middlewares: [validateAndTransformBody(PostAdminCreateWeeklyOffer as any)],
     },
   ],
 });

@@ -14,7 +14,7 @@ type AdminProductsResponse = {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const WeeklyOfferPage: React.FC = () => {
-  const [selctedProductsIds, setSelctedProductsIds] = useState<string[]>([]);
+  const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
 
   useEffect(() => {
@@ -35,20 +35,28 @@ const WeeklyOfferPage: React.FC = () => {
   }, []);
 
   const toggleSelected = (id: string) => {
-    if (selctedProductsIds.includes(id)) {
-      setSelctedProductsIds(selctedProductsIds.filter((p) => p !== id));
+    if (selectedProductIds.includes(id)) {
+      setSelectedProductIds(selectedProductIds.filter((p) => p !== id));
     } else {
-      setSelctedProductsIds([...selctedProductsIds, id]);
+      setSelectedProductIds([...selectedProductIds, id]);
     }
   };
 
   const queryClient = useQueryClient();
+  
+  type WeeklyOfferMutationType  = {
+    title: string,
+    from: Date,
+    to: Date,
+    selectedProductIds: string[]
+  }
 
   const mutation = useMutation({
-    mutationFn: (data) => sdk.client.fetch("/admin/weekly-offers", {
-      method: "POST",
-      body: JSON.stringify(data),
-    }),
+    mutationFn: (data: WeeklyOfferMutationType) =>
+      sdk.client.fetch(`/admin/weekly-offers`, {
+        method: "POST",
+        body: data,
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["weekly-offers"] });
     },
@@ -60,11 +68,22 @@ const WeeklyOfferPage: React.FC = () => {
     queryKey: [["products"]],
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     //TODO: implement submit
-    console.log(selctedProductsIds);
+    console.log(selectedProductIds);
     console.log(dateRange);
-
+    const title = "kw 4"
+    if(!dateRange?.from || !dateRange!.to){
+      console.log("is Invalid");
+      
+      return
+    }
+    const data = {title: title, from: dateRange?.from, to: dateRange?.to, selectedProductIds: selectedProductIds}
+    console.log(JSON.stringify(data));
+    
+    const response = mutation.mutate(data)
+    console.log(response);
+    
   }
 
   const handleDateChange = (date: Date | null, isFrom: Boolean) => {

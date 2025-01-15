@@ -6,28 +6,27 @@ import { PostAdminCreateWeeklyOffer } from "./validators";
 import { GraphResultSet } from "@medusajs/types";
 import { useQueryGraphStep } from "@medusajs/medusa/core-flows";
 import { createWeeklyOfferWorkflow } from "src/workflows/create-weekly-offer";
+import { log } from "console";
 
-type PostAdminCreateBrandType = z.infer<typeof PostAdminCreateWeeklyOffer>;
+type PostAdminCreateWeeklyOfferType = z.infer<typeof PostAdminCreateWeeklyOffer>;
 
-export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
+export const POST = async (req: MedusaRequest<PostAdminCreateWeeklyOfferType>, res: MedusaResponse) => {
   const productModuleService: IProductModuleService = req.scope.resolve(
     Modules.PRODUCT
   );
 
-  //TODO: fix validator and remove this sh*t
-
-  const { title, from, to, selectedProductIds } = req.validatedBody as {
-    title: string;
-    from: Date;
-    to: Date;
-    selectedProductIds: string[];
-  };
-
-  const input = {title: title, from: from, to: to, selectedProductIds: selectedProductIds}
-
+  console.log(req.scope);
+  console.log(req.body);
+  
+  
   //at the moment only returns id
   const { result } = await createWeeklyOfferWorkflow(req.scope)
-    .run()
+    .run({
+        input: req.body
+    })
+
+    console.log(result);
+    
 
   return res.status(201).json(result)
 };

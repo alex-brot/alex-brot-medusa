@@ -1,10 +1,11 @@
-import { WeeklyOffer } from ".medusa/types/remote-query-entry-points";
+
 import {
   createStep,
   StepResponse,
   createWorkflow,
   WorkflowResponse,
   transform,
+  when,
 } from "@medusajs/framework/workflows-sdk";
 import { WEEKLY_OFFERS_MODULE } from "src/modules/weekly-offers-module";
 import WeeklyOffersModuleService from "src/modules/weekly-offers-module/service";
@@ -16,8 +17,11 @@ import {
   getProductsStep,
   useQueryGraphStep,
 } from "@medusajs/medusa/core-flows";
+import { container } from "@medusajs/framework";
 import { WorkflowData } from "@medusajs/framework/workflows-sdk";
 import { log } from "console";
+import link from "../links/weekly-offers";
+import { WeeklyOffer } from ".medusa/types/query-entry-points";
 
 export type CreateWeeklyOfferWorkflowInput = {
   title: string;
@@ -35,6 +39,8 @@ export type CreateEmptyWeeklyOffer = {};
 export const creatWeeklyOfferStep = createStep(
   "create-weekly-offer-step",
   async (input: CreateWeeklyOfferWorkflowInput, { container }) => {
+    console.log("input in step", input);
+    
     const createEmptyWeeklyOfferInput: CreateEmptyWeeklyOffer = {
       title: input.title,
       from: input.from,
@@ -49,13 +55,57 @@ export const creatWeeklyOfferStep = createStep(
         createEmptyWeeklyOfferInput
       );
 
+      const remoteLinkService = container.resolve("remoteLink");
+
+      const createLinks = async (
+        productId: string,
+        weeklyOffer: WeeklyOffer
+      ) => {
+        try {
+          await remoteLinkService.create({
+            [WEEKLY_OFFERS_MODULE]: {
+              weekly_offer_id: weeklyOffer.id,
+            },
+            [Modules.PRODUCT]: {
+              product_id: productId,
+            },
+          });
+        } catch (error) {
+          return error;
+        }
+
+        return true;
+      };
+
+      console.log(input.selectedProductIds);
+      
+    
+        for (const selectedProductId of input.selectedProductIds) {
+          console.log(selectedProductId);
+          
+          createLinks(selectedProductId, weeklyOffer)
+            .then((weekly_offer_id) => {
+              console.log("Weekly Offer ID:", weekly_offer_id);
+            })
+            .catch((error) => {
+              console.error("Error creating weekly offer:", error);
+            });
+        }
+        
+      
+        
+      
+      
+      
     return new StepResponse(weeklyOffer, weeklyOffer.id);
   }
 );
 
 export const createWeeklyOfferWorkflow = createWorkflow(
   "create-weekly-offer",
-  (input: CreateWeeklyOfferWorkflowInput) => {
+   (input: CreateWeeklyOfferWorkflowInput) => {
+    
+    
     const weeklyOffer = creatWeeklyOfferStep(input);
 
     // const products = createStep(
@@ -80,7 +130,7 @@ export const createWeeklyOfferWorkflow = createWorkflow(
     // Inside your workflow function
     // Now we need to handle each item in the array
 
-    const result = transform({ productsStep }, ({ productsStep }) => {
+    const result: {id: string, title: string}[] = transform({ productsStep }, ({ productsStep }) => {
       const products = productsStep.filter(
         (item): item is ProductDTO => "id" in item
       );
@@ -100,25 +150,44 @@ export const createWeeklyOfferWorkflow = createWorkflow(
       return processedProducts;
     });
 
-    const links = transform(
-      {
-        result,
-        weeklyOffer,
-      },
-      (data) =>
-        data.result.map((product) => ({
-          [WEEKLY_OFFERS_MODULE]: {
-            weekly_offers_id: weeklyOffer.id,
-          },
-          [Modules.PRODUCT]: {
-            product_id: product.id,
-          },
-        }))
-    );
+    
 
+    //  const links = transform(
+    //    {
+    //      result,
+    //      input,
+    //    },
+    //    (data) =>
+    //      data.result.map((product) => ({
+    //        [WEEKLY_OFFERS_MODULE]: {
+    //          weekly_offer_id: weeklyOffer.id,
+    //        },
+    //        [Modules.PRODUCT]: {
+    //          product_id: product.id,
+    //        },
+    //      }))
+    //  );
 
-    createRemoteLinkStep(links);
+    //  createRemoteLinkStep(links)
+    // transform({
+    //   result,
+    //   weeklyOffer
+    // },
+    // (data) => {
+    //     when(data, (data) => data.result !== undefined).then(() => {
+    //       for (const product of data.result) {
+    //         createRemoteLinkStep({
+    //           [Modules.PRODUCT]: {
+    //             product_id: product.id,
+    //           },
+    //           "WeeklyOfferService": {
+    //             weekly_offer_id: weeklyOffer.id,
+    //           },
+    //         });
+    //       }
+    //     });
+    // });
 
-    return new WorkflowResponse(weeklyOffer.id);
+    return new WorkflowResponse({weeklyOffer});
   }
 );
