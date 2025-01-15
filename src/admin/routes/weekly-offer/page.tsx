@@ -5,7 +5,9 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sdk } from "../../lib/sdk";
 import { Button, Checkbox, DatePicker, DateRange, Table } from "@medusajs/ui";
-import WeeklyOfferComponent, { WeeklyOfferComponentType } from "../../components/weekly-offer/WeeklyOfferComponent";
+import WeeklyOfferComponent, {
+  WeeklyOfferComponentType,
+} from "../../components/weekly-offer/WeeklyOfferComponent";
 
 type AdminProductsResponse = {
   products: AdminProduct[];
@@ -68,8 +70,8 @@ const WeeklyOfferPage: React.FC = () => {
   });
 
   const { data: weeklyOffers } = useQuery<WeeklyOffersResponse>({
-    queryFn: () => sdk.client.fetch('/admin/weekly-offers'),
-    queryKey: [["offers"]]
+    queryFn: () => sdk.client.fetch("/admin/weekly-offers"),
+    queryKey: [["offers"]],
   });
 
   const handleSubmit = async () => {
@@ -179,8 +181,8 @@ const WeeklyOfferPage: React.FC = () => {
           </Button>
         </div>
       </div>
-      <h1>Weekly Offers</h1>
-      <div className="flex ">
+      <h1 className="text-xl mt-8">Weekly Offers</h1>
+      <div className="flex flex-wrap">
         {weeklyOffers?.map((weeklyOffer) => (
           <WeeklyOfferComponent
             weeklyOffer={weeklyOffer}
@@ -193,16 +195,19 @@ const WeeklyOfferPage: React.FC = () => {
 
 type ProductTableRowProb = {
   product: AdminProduct;
-  toggelSelected: (id: string) => void;
+  toggelSelected?: (id: string) => void;
 };
 
-const ProductTableRow = ({ product, toggelSelected }: ProductTableRowProb) => {
+export const ProductTableRow = ({
+  product,
+  toggelSelected,
+}: ProductTableRowProb) => {
   const [isSelected, setIsSelected] = useState(false);
   const handleSelected = () => {
     const switchedState = !isSelected;
     setIsSelected(switchedState);
 
-    toggelSelected(product.id);
+    toggelSelected!(product.id);
   };
 
   return (
@@ -215,14 +220,17 @@ const ProductTableRow = ({ product, toggelSelected }: ProductTableRowProb) => {
       ) : (
         <Table.Cell> None</Table.Cell>
       )}
-
-      <Table.Cell>
-        <Checkbox
-          checked={isSelected}
-          id="product-weekly-offer"
-          onClick={() => handleSelected()}
-        />
-      </Table.Cell>
+      {toggelSelected !== undefined ? (
+        <Table.Cell>
+          <Checkbox
+            checked={isSelected}
+            id="product-weekly-offer"
+            onClick={() => handleSelected()}
+          />
+        </Table.Cell>
+      ) : (
+        <></>
+      )}
     </Table.Row>
   );
 };
