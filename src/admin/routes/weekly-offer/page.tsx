@@ -2,17 +2,16 @@ import { defineRouteConfig } from "@medusajs/admin-sdk";
 import { AdminProduct } from "@medusajs/framework/types";
 import { CalendarSolid } from "@medusajs/icons";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sdk } from "../../lib/sdk";
-import { Checkbox, DatePicker, DateRange, Table } from "@medusajs/ui";
-import { Button } from "@medusajs/ui";
+import { Button, Checkbox, DatePicker, DateRange, Table } from "@medusajs/ui";
+import WeeklyOfferComponent, { WeeklyOfferComponentType } from "../../components/weekly-offer/WeeklyOfferComponent";
 
 type AdminProductsResponse = {
   products: AdminProduct[];
 };
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import WeeklyOfferComponent, { WeeklyOfferComponentType } from "../../components/weekly-offer/weeklyOfferComponent";
+type WeeklyOffersResponse = WeeklyOfferComponentType[];
 
 const WeeklyOfferPage: React.FC = () => {
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
@@ -68,31 +67,10 @@ const WeeklyOfferPage: React.FC = () => {
     queryKey: [["products"]],
   });
 
-  /*const { data: weeklyOffers } = useQuery({
-    queryFn: () => sdk.client.fetch('admin/weekly-offers'),
-    queryKey: [["weekly-offer, count"]]
-  })*/
-
-  const weeklyOffers: WeeklyOfferComponentType[] = [
-      {
-        title: "kw4",
-        from: new Date("2025-01-15 09:15:24.58+00"),
-        to: new Date("2025-01-19 23:00:00+00"),
-        count: 3,
-      },
-      {
-        title: "kw5",
-        from: new Date("2025-01-20 09:15:24.58+00"),
-        to: new Date("2025-01-25 23:00:00+00"),
-        count: 4,
-      },
-      {
-        title: "kw6",
-        from: new Date("2025-01-25 09:15:24.58+00"),
-        to: new Date("2025-01-30 23:00:00+00"),
-        count: 5,
-      },
-    ];
+  const { data: weeklyOffers } = useQuery<WeeklyOffersResponse>({
+    queryFn: () => sdk.client.fetch('/admin/weekly-offers'),
+    queryKey: [["offers"]]
+  });
 
   const handleSubmit = async () => {
     //TODO: implement submit
@@ -203,7 +181,7 @@ const WeeklyOfferPage: React.FC = () => {
       </div>
       <h1>Weekly Offers</h1>
       <div className="flex ">
-        {weeklyOffers.map((weeklyOffer) => (
+        {weeklyOffers?.map((weeklyOffer) => (
           <WeeklyOfferComponent
             weeklyOffer={weeklyOffer}
           ></WeeklyOfferComponent>

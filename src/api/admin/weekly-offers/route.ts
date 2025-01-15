@@ -1,12 +1,8 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
-import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
-import { IProductModuleService, RemoteQueryFunction } from "@medusajs/framework/types";
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { z } from "zod";
 import { PostAdminCreateWeeklyOffer } from "./validators";
-import { GraphResultSet } from "@medusajs/types";
-import { useQueryGraphStep } from "@medusajs/medusa/core-flows";
 import { createWeeklyOfferWorkflow } from "src/workflows/create-weekly-offer";
-import { log } from "console";
 import { Query } from "@medusajs/framework";
 
 type PostAdminCreateWeeklyOfferType = z.infer<typeof PostAdminCreateWeeklyOffer>;
@@ -34,7 +30,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   //at the moment only returns id
   const { data } = await query.graph({
     entity: "weekly_offer",
-    fields: ["id", "title", "from", "to"]
+    fields: ["id", "title", "from", "to", "products.*"]
   })
 
   return res.json(data)
