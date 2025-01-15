@@ -15,8 +15,8 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "name": {
-          "name": "name",
+        "title": {
+          "name": "title",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -24,8 +24,8 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "start": {
-          "name": "start",
+        "from": {
+          "name": "from",
           "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
@@ -34,8 +34,8 @@
           "length": 6,
           "mappedType": "datetime"
         },
-        "end": {
-          "name": "end",
+        "to": {
+          "name": "to",
           "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
