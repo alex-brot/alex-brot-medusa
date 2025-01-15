@@ -12,6 +12,7 @@ type AdminProductsResponse = {
 };
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import WeeklyOfferComponent, { WeeklyOfferComponentType } from "../../components/weekly-offer/weeklyOfferComponent";
 
 const WeeklyOfferPage: React.FC = () => {
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
@@ -43,13 +44,13 @@ const WeeklyOfferPage: React.FC = () => {
   };
 
   const queryClient = useQueryClient();
-  
-  type WeeklyOfferMutationType  = {
-    title: string,
-    from: Date,
-    to: Date,
-    selectedProductIds: string[]
-  }
+
+  type WeeklyOfferMutationType = {
+    title: string;
+    from: Date;
+    to: Date;
+    selectedProductIds: string[];
+  };
 
   const mutation = useMutation({
     mutationFn: (data: WeeklyOfferMutationType) =>
@@ -62,44 +63,70 @@ const WeeklyOfferPage: React.FC = () => {
     },
   });
 
-
   const { data } = useQuery<AdminProductsResponse>({
     queryFn: () => sdk.client.fetch(`/admin/products`),
     queryKey: [["products"]],
   });
 
-  const handleSubmit = async() => {
+  /*const { data: weeklyOffers } = useQuery({
+    queryFn: () => sdk.client.fetch('admin/weekly-offers'),
+    queryKey: [["weekly-offer, count"]]
+  })*/
+
+  const weeklyOffers: WeeklyOfferComponentType[] = [
+      {
+        title: "kw4",
+        from: new Date("2025-01-15 09:15:24.58+00"),
+        to: new Date("2025-01-19 23:00:00+00"),
+        count: 3,
+      },
+      {
+        title: "kw5",
+        from: new Date("2025-01-20 09:15:24.58+00"),
+        to: new Date("2025-01-25 23:00:00+00"),
+        count: 4,
+      },
+      {
+        title: "kw6",
+        from: new Date("2025-01-25 09:15:24.58+00"),
+        to: new Date("2025-01-30 23:00:00+00"),
+        count: 5,
+      },
+    ];
+
+  const handleSubmit = async () => {
     //TODO: implement submit
     console.log(selectedProductIds);
     console.log(dateRange);
-    const title = "kw 4"
-    if(!dateRange?.from || !dateRange!.to){
+    const title = "kw 4";
+    if (!dateRange?.from || !dateRange!.to) {
       console.log("is Invalid");
-      
-      return
+
+      return;
     }
-    const data = {title: title, from: dateRange?.from, to: dateRange?.to, selectedProductIds: selectedProductIds}
+    const data = {
+      title: title,
+      from: dateRange?.from,
+      to: dateRange?.to,
+      selectedProductIds: selectedProductIds,
+    };
     console.log(JSON.stringify(data));
-    
-    const response = mutation.mutate(data)
+
+    const response = mutation.mutate(data);
     console.log(response);
-    
-  }
+  };
 
   const handleDateChange = (date: Date | null, isFrom: Boolean) => {
     let newDateRange: DateRange = {
       from: dateRange?.from,
       to: dateRange?.to,
     };
-    if(isFrom){
-       newDateRange.from = date ? date : undefined
+    if (isFrom) {
+      newDateRange.from = date ? date : undefined;
+    } else {
+      newDateRange.to = date ? date : undefined;
     }
-    else{
-      newDateRange.to = date ? date : undefined
-    }
-    
-    
-  }
+  };
 
   return (
     <div>
@@ -173,6 +200,14 @@ const WeeklyOfferPage: React.FC = () => {
             Create Offer
           </Button>
         </div>
+      </div>
+      <h1>Weekly Offers</h1>
+      <div className="flex ">
+        {weeklyOffers.map((weeklyOffer) => (
+          <WeeklyOfferComponent
+            weeklyOffer={weeklyOffer}
+          ></WeeklyOfferComponent>
+        ))}
       </div>
     </div>
   );

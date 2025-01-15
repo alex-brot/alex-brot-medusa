@@ -11,10 +11,6 @@ import { log } from "console";
 type PostAdminCreateWeeklyOfferType = z.infer<typeof PostAdminCreateWeeklyOffer>;
 
 export const POST = async (req: MedusaRequest<PostAdminCreateWeeklyOfferType>, res: MedusaResponse) => {
-  const productModuleService: IProductModuleService = req.scope.resolve(
-    Modules.PRODUCT
-  );
-
   console.log(req.scope);
   console.log(req.body);
   
@@ -30,5 +26,4 @@ export const POST = async (req: MedusaRequest<PostAdminCreateWeeklyOfferType>, r
 
   return res.status(201).json(result)
 };
-
 
