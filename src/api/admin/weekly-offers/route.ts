@@ -30,7 +30,14 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   //at the moment only returns id
   const { data } = await query.graph({
     entity: "weekly_offer",
-    fields: ["id", "title", "from", "to", "products.*"]
+    fields: ["id", "title", "from", "to", "products.*"],
+    pagination: {
+      skip: 0,
+      take: 20,
+      order: {
+        from: "desc",
+      }
+    }
   })
 
   return res.json(data)
