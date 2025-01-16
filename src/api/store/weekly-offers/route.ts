@@ -6,6 +6,10 @@ import {
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   const query = req.scope.resolve<Query>(ContainerRegistrationKeys.QUERY);
+  let fromDate = new Date(new Date().setHours(23, 59, 59, 999));
+  let toDate = new Date(new Date().setHours(0, 0, 0, 0));
+
+  console.log();
 
   //at the moment only returns id
   const { data } = await query.graph({
@@ -21,7 +25,10 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     ],
     filters: {
       from: {
-        $lte: new Date(),
+        $lte: fromDate,
+      },
+      to: {
+        $gte: toDate,
       },
     },
     context: {
