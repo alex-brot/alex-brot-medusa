@@ -15,13 +15,43 @@ type AdminProductsResponse = {
 
 type WeeklyOffersResponse = WeeklyOfferComponentType[];
 
+function getWeekNumber(date: Date): number {
+  // Copying date so the original date won't be modified
+  const tempDate = new Date(date.valueOf());
+
+  // ISO week date weeks start on Monday, so correct the day number
+  const dayNum = (date.getDay() + 6) % 7;
+
+  // Set the target to the nearest Thursday (current date + 4 - current day number)
+  tempDate.setDate(tempDate.getDate() - dayNum + 3);
+
+  // ISO 8601 week number of the year for this date
+  const firstThursday = tempDate.valueOf();
+
+  // Set the target to the first day of the year
+  // First set the target to January 1st
+  tempDate.setMonth(0, 1);
+
+  // If this is not a Thursday, set the target to the next Thursday
+  if (tempDate.getDay() !== 4) {
+    tempDate.setMonth(0, 1 + ((4 - tempDate.getDay() + 7) % 7));
+  }
+
+  // The weeknumber is the number of weeks between the first Thursday of the year
+  // and the Thursday in the target week
+  return 1 + Math.ceil((firstThursday - tempDate.valueOf()) / 604800000); // 604800000 = number of milliseconds in a week
+}
+
 const WeeklyOfferPage: React.FC = () => {
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+  const [title, setTitle] = useState<string>("");
+
+  
 
   useEffect(() => {
+    const currentDate = new Date();
     const currentDatePlusFiveDaysRange = () => {
-      const currentDate = new Date();
       const fiveDaysFromNow = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth(),
@@ -31,7 +61,11 @@ const WeeklyOfferPage: React.FC = () => {
         from: currentDate,
         to: fiveDaysFromNow,
       };
+
+      
     };
+
+    setTitle(`kw ${getWeekNumber(currentDate)}`);
 
     setDateRange(currentDatePlusFiveDaysRange());
   }, []);
@@ -78,7 +112,6 @@ const WeeklyOfferPage: React.FC = () => {
     //TODO: implement submit
     console.log(selectedProductIds);
     console.log(dateRange);
-    const title = "kw 4";
     if (!dateRange?.from || !dateRange!.to) {
       console.log("is Invalid");
 
@@ -106,6 +139,7 @@ const WeeklyOfferPage: React.FC = () => {
     } else {
       newDateRange.to = date ? date : undefined;
     }
+    setTitle(`kw ${getWeekNumber(newDateRange.from ? newDateRange.from : new Date())}`);
     setDateRange(newDateRange);
   };
 
@@ -136,7 +170,11 @@ const WeeklyOfferPage: React.FC = () => {
           )}
         </Table.Body>
       </Table>
-      <div className="flex w-full flex-col justify-start mt-8 items-start">
+      <div className="mt-12 bg-gray-100 dark:bg-zinc-800 p-2 rounded-md w-[250px]">
+        <p className="text-xs text-gray-900 dark:text-gray-300">title</p>
+        <h1 className="text-xl">{title}</h1>
+      </div>
+      <div className="flex w-full flex-col justify-start mt-3 items-start">
         <div className="w-[250px]">
           <h3>From</h3>
           <DatePicker
@@ -146,7 +184,7 @@ const WeeklyOfferPage: React.FC = () => {
               handleDateChange(date, true);
             }}
           />
-          <h3>To</h3>
+          <h3 className="mt-4">To</h3>
           <DatePicker
             aria-label="to"
             value={dateRange?.to}
