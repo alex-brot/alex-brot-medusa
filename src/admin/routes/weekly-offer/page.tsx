@@ -106,6 +106,7 @@ const WeeklyOfferPage: React.FC = () => {
     } else {
       newDateRange.to = date ? date : undefined;
     }
+    setDateRange(newDateRange);
   };
 
   return (
