@@ -1,4 +1,3 @@
-
 import {
   createStep,
   StepResponse,
@@ -12,7 +11,7 @@ import WeeklyOffersModuleService from "src/modules/weekly-offers-module/service"
 import { IProductModuleService, ProductDTO } from "@medusajs/framework/types";
 import { Modules } from "@medusajs/framework/utils";
 import {
-    createProductsWorkflow,
+  createProductsWorkflow,
   createRemoteLinkStep,
   getProductsStep,
   useQueryGraphStep,
@@ -40,7 +39,7 @@ export const creatWeeklyOfferStep = createStep(
   "create-weekly-offer-step",
   async (input: CreateWeeklyOfferWorkflowInput, { container }) => {
     console.log("input in step", input);
-    
+
     const createEmptyWeeklyOfferInput: CreateEmptyWeeklyOffer = {
       title: input.title,
       from: input.from,
@@ -55,57 +54,46 @@ export const creatWeeklyOfferStep = createStep(
         createEmptyWeeklyOfferInput
       );
 
-      const remoteLinkService = container.resolve("remoteLink");
+    const remoteLinkService = container.resolve("remoteLink");
 
-      const createLinks = async (
-        productId: string,
-        weeklyOffer: WeeklyOffer
-      ) => {
-        try {
-          await remoteLinkService.create({
-            [WEEKLY_OFFERS_MODULE]: {
-              weekly_offer_id: weeklyOffer.id,
-            },
-            [Modules.PRODUCT]: {
-              product_id: productId,
-            },
-          });
-        } catch (error) {
-          return error;
-        }
+    const createLinks = async (productId: string, weeklyOffer: WeeklyOffer) => {
+      try {
+        await remoteLinkService.create({
+          [WEEKLY_OFFERS_MODULE]: {
+            weekly_offer_id: weeklyOffer.id,
+          },
+          [Modules.PRODUCT]: {
+            product_id: productId,
+          },
+        });
+      } catch (error) {
+        return error;
+      }
 
-        return true;
-      };
+      return true;
+    };
 
-      console.log(input.selectedProductIds);
-      
-    
-        for (const selectedProductId of input.selectedProductIds) {
-          console.log(selectedProductId);
-          
-          createLinks(selectedProductId, weeklyOffer)
-            .then((weekly_offer_id) => {
-              console.log("Weekly Offer ID:", weekly_offer_id);
-            })
-            .catch((error) => {
-              console.error("Error creating weekly offer:", error);
-            });
-        }
-        
-      
-        
-      
-      
-      
+    console.log(input.selectedProductIds);
+
+    for (const selectedProductId of input.selectedProductIds) {
+      console.log(selectedProductId);
+
+      createLinks(selectedProductId, weeklyOffer)
+        .then((weekly_offer_id) => {
+          console.log("Weekly Offer ID:", weekly_offer_id);
+        })
+        .catch((error) => {
+          console.error("Error creating weekly offer:", error);
+        });
+    }
+
     return new StepResponse(weeklyOffer, weeklyOffer.id);
   }
 );
 
 export const createWeeklyOfferWorkflow = createWorkflow(
   "create-weekly-offer",
-   (input: CreateWeeklyOfferWorkflowInput) => {
-    
-    
+  (input: CreateWeeklyOfferWorkflowInput) => {
     const weeklyOffer = creatWeeklyOfferStep(input);
 
     // const products = createStep(
@@ -126,31 +114,31 @@ export const createWeeklyOfferWorkflow = createWorkflow(
       ids: input.selectedProductIds, // Replace with your actual product IDs
     });
 
-
     // Inside your workflow function
     // Now we need to handle each item in the array
 
-    const result: {id: string, title: string}[] = transform({ productsStep }, ({ productsStep }) => {
-      const products = productsStep.filter(
-        (item): item is ProductDTO => "id" in item
-      );
+    const result: { id: string; title: string }[] = transform(
+      { productsStep },
+      ({ productsStep }) => {
+        const products = productsStep.filter(
+          (item): item is ProductDTO => "id" in item
+        );
 
-      // Now you can work with the products
-      const processedProducts = products.map((product) => {
-        console.log(product);
-        
-        // Do something with each product
-        return {
-          id: product.id,
-          title: product.title,
-          // Add more processing as needed
-        };
-      });
+        // Now you can work with the products
+        const processedProducts = products.map((product) => {
+          console.log(product);
 
-      return processedProducts;
-    });
+          // Do something with each product
+          return {
+            id: product.id,
+            title: product.title,
+            // Add more processing as needed
+          };
+        });
 
-    
+        return processedProducts;
+      }
+    );
 
     //  const links = transform(
     //    {
@@ -188,6 +176,6 @@ export const createWeeklyOfferWorkflow = createWorkflow(
     //     });
     // });
 
-    return new WorkflowResponse({weeklyOffer});
+    return new WorkflowResponse({ weeklyOffer });
   }
 );

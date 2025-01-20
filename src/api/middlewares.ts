@@ -17,11 +17,11 @@ export default defineMiddlewares({
       method: "POST",
       matcher: "/admin/products/",
     },
-    {
-      matcher: "/admin/brands",
-      method: "POST",
-      //TODO: fix validator
-      //middlewares: [validateAndTransformBody(PostAdminCreateWeeklyOffer as any)],
-    },
+    // {
+    //   matcher: "/admin/weekly-offers",
+    //   method: "POST",
+    //   //TODO: fix validator
+    //   //middlewares: [validateAndTransformBody(PostAdminCreateWeeklyOffer as any)],
+    // },
   ],
 });
