@@ -1,16 +1,17 @@
 import { MedusaRequest, MedusaResponse, Query } from "@medusajs/framework";
 import { CustomerDTO } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { POS_MODULE } from "src/modules/pos-module";
-import { createPosAuthWorkflow } from "src/workflows/create-posauth";
+import { createPosAuthWorkflow, CreatePosAuthWorkflowInput } from "src/workflows/create-posauth";
+import { z } from "zod";
 
-export const POST = async (req: MedusaRequest<CustomerDTO>, res: MedusaResponse) => {
+type CreatePosAuthWorkflowInputType = z.infer<typeof CreatePosAuthWorkflowInput>
+export const POST = async (req: MedusaRequest<CreatePosAuthWorkflowInputType>, res: MedusaResponse) => {
   console.log(req.scope);
   console.log(req.body);
 
   const { result } = await createPosAuthWorkflow(req.scope).run({
     input: {
-      customerId: req.body.id,
+      customerId: req.body.customerId,
     }
   })
   return res.status(201).json(result)
