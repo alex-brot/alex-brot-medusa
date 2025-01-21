@@ -58,7 +58,7 @@ const createPosAuthStep = createStep(
                     [POS_MODULE]: {
                         pos_auth_id: posAuth.id,
                     },
-                    [Modules.PRODUCT]: {
+                    [Modules.CUSTOMER]: {
                         customer_id: customerId,
                     },
                 });
