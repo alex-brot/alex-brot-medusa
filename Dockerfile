@@ -25,7 +25,7 @@ WORKDIR /app/medusa
 COPY --from=prod-deps /app/medusa/node_modules ./node_modules
 COPY --from=builder /app/medusa/.medusa ./
 
-COPY --from=builder /app/medusa/medusa-config*.ts ./medusa-config.ts
+COPY --from=builder /app/medusa/medusa-config.ts /app/medusa/medusa-config.prod.ts /app/medusa/medusa-config.dev.ts ./
 
 RUN npm install -g @medusajs/medusa-cli
 
