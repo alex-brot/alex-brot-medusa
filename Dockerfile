@@ -1,34 +1,30 @@
-FROM node:23.6.0 as base
+FROM node:23.6.0-slim as base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
 WORKDIR /app/medusa
 
-RUN apt-get update && apt-get install -y python3 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y python3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 RUN corepack enable
 
-COPY . .
+COPY package.json pnpm-lock.yaml ./
 
 FROM base as prod-deps
-
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
 FROM base as builder
-
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-
 RUN pnpm run build
 
-FROM base
+FROM node:23.6.0-slim
+WORKDIR /app/medusa
 
-COPY --from=prod-deps /app/medusa/node_modules /app/medusa/node_modules
-COPY --from=builder /app/medusa/.medusa /app/medusa/.medusa
-#COPY --from=builder /app/medusa/dist /app/medusa/dist
+COPY --from=prod-deps /app/medusa/node_modules ./node_modules
+COPY --from=builder /app/medusa/.medusa ./ ./
 
 RUN pnpm install -g @medusajs/medusa-cli
-RUN npm i --only=production
 
 EXPOSE 9000
 
