@@ -24,6 +24,7 @@ WORKDIR /app/medusa
 
 RUN mkdir ./.medusa/
 COPY --from=builder /app/medusa/.medusa ./.medusa
+RUN ln -s .medusa/server/public/ public
 COPY --from=prod-deps /app/medusa/node_modules ./node_modules
 
 RUN npm install -g @medusajs/medusa-cli
