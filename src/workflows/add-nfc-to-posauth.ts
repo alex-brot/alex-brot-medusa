@@ -5,11 +5,9 @@ import {
   StepResponse,
   WorkflowResponse,
 } from "@medusajs/framework/workflows-sdk";
-import { PostAdminCreateEntryTimestamp } from "src/api/admin/pos-auth/entry-timestamps/validators";
-import { PatchPosAuthType as PatchNfc } from "src/api/admin/pos-auth/route";
-import { POS_MODULE } from "src/modules/pos-module";
-import PosService from "src/modules/pos-module/service";
-import { z } from "zod";
+import { PatchPosAuthType as PatchNfc } from "../api/admin/pos-auth/route";
+import { POS_MODULE } from "../modules/pos-module";
+import PosService from "../modules/pos-module/service";
 
 
 export const addNfcStep = createStep(
