@@ -25,8 +25,7 @@ WORKDIR /app/medusa
 COPY --from=prod-deps /app/medusa/node_modules ./node_modules
 COPY --from=builder /app/medusa/.medusa/server ./
 
-ENV NODE_ENV = production
-
+ENV NODE_ENV production
 RUN npm install -g @medusajs/medusa-cli
 
 EXPOSE 9000
