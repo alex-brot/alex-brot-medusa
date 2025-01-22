@@ -28,9 +28,9 @@ export default defineConfig({
         ],
       },
     },
-    {
-      resolve: "./src/modules/allergen-module",
-    },
+    //{
+    //  resolve: "./src/modules/allergen-module",
+    //},
     {
       resolve: "./src/modules/weekly-offers-module",
     },
