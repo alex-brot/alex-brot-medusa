@@ -29,6 +29,10 @@ export const GET = async (
     },
   })
 
-  log(posAuth);
+  log(posAuth[0].pos_auth);
+  if(posAuth[0].pos_auth === undefined) {
+    return res.status(404).json({posAuth: undefined});
+  }
+
   return res.json(posAuth[0].pos_auth);
 };
