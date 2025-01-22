@@ -28,6 +28,7 @@ COPY --from=builder /app/medusa/.medusa /app/medusa/.medusa
 #COPY --from=builder /app/medusa/dist /app/medusa/dist
 
 RUN pnpm install -g @medusajs/medusa-cli
+RUN npm i --only=production
 
 EXPOSE 9000
 
