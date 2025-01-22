@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y python3 --no-install-recommends && rm -
 RUN corepack enable
 
 COPY src/ ./src/
-COPY package.json pnpm-lock.yaml tsconfig.json medusa-config* ./
+COPY package.json pnpm-lock.yaml tsconfig.json ./
+COPY medusa-config.prod.ts medusa-config.ts
 
 FROM base as prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
@@ -23,9 +24,7 @@ FROM node:23.6.0-slim
 WORKDIR /app/medusa
 
 COPY --from=prod-deps /app/medusa/node_modules ./node_modules
-COPY --from=builder /app/medusa/.medusa ./
-
-COPY --from=builder /app/medusa/medusa-config.ts /app/medusa/medusa-config.prod.ts /app/medusa/medusa-config.dev.ts ./
+COPY --from=builder /app/medusa/.medusa/server ./
 
 RUN npm install -g @medusajs/medusa-cli
 
