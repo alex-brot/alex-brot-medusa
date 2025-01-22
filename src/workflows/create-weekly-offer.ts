@@ -1,26 +1,16 @@
 import {
-  createStep,
-  StepResponse,
-  createWorkflow,
-  WorkflowResponse,
-  transform,
-  when,
+    createStep,
+    createWorkflow,
+    StepResponse,
+    transform,
+    WorkflowResponse,
 } from "@medusajs/framework/workflows-sdk";
-import { WEEKLY_OFFERS_MODULE } from "src/modules/weekly-offers-module";
-import WeeklyOffersModuleService from "src/modules/weekly-offers-module/service";
-import { IProductModuleService, ProductDTO } from "@medusajs/framework/types";
-import { Modules } from "@medusajs/framework/utils";
-import {
-  createProductsWorkflow,
-  createRemoteLinkStep,
-  getProductsStep,
-  useQueryGraphStep,
-} from "@medusajs/medusa/core-flows";
-import { container } from "@medusajs/framework";
-import { WorkflowData } from "@medusajs/framework/workflows-sdk";
-import { log } from "console";
-import link from "../links/weekly-offers";
-import { WeeklyOffer } from ".medusa/types/query-entry-points";
+import {ProductDTO} from "@medusajs/framework/types";
+import {Modules} from "@medusajs/framework/utils";
+import {getProductsStep,} from "@medusajs/medusa/core-flows";
+import WeeklyOffersModuleService from "../modules/weekly-offers-module/service";
+import {WEEKLY_OFFERS_MODULE} from "../modules/weekly-offers-module";
+import {WeeklyOffer} from "../../.medusa/types/query-entry-points";
 
 export type CreateWeeklyOfferWorkflowInput = {
   title: string;

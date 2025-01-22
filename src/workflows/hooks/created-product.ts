@@ -1,9 +1,9 @@
-import { Allergen } from ".medusa/types/remote-query-entry-points";
-import { ContainerRegistrationKeys, Modules } from "@medusajs/framework/utils";
-import { StepResponse } from "@medusajs/framework/workflows-sdk";
-import { createProductsWorkflow } from "@medusajs/medusa/core-flows";
-import { ALLERGEN_MODULE } from "src/modules/allergen-module";
+import {ContainerRegistrationKeys} from "@medusajs/framework/utils";
+import {StepResponse} from "@medusajs/framework/workflows-sdk";
+import {createProductsWorkflow} from "@medusajs/medusa/core-flows";
+import {ALLERGEN_MODULE} from "src/modules/allergen-module";
 import AllergenModuleService from "src/modules/allergen-module/service";
+import {Allergen} from "../../../.medusa/types/query-entry-points";
 
 createProductsWorkflow.hooks.productsCreated(
     (async ({ products, additional_data }, { container }) => {

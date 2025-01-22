@@ -1,11 +1,7 @@
-import {
-  Allergen,
-  AllergensProduct,
-  Product,
-} from ".medusa/types/remote-query-entry-points";
 import { createStep, StepResponse } from "@medusajs/framework/workflows-sdk";
 import { ALLERGEN_MODULE } from "src/modules/allergen-module";
 import AllergenModuleService from "src/modules/allergen-module/service";
+import {Allergen, Product} from "../../../../.medusa/types/query-entry-points";
 
 type CreateAllergeneProductWorkflowInput = {
   allergenes: Array<Allergen>;
