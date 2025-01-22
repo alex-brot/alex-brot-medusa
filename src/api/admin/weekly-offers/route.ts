@@ -2,8 +2,8 @@ import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { z } from "zod";
 import { PostAdminCreateWeeklyOffer } from "./validators";
-import { createWeeklyOfferWorkflow } from "src/workflows/create-weekly-offer";
 import { Query } from "@medusajs/framework";
+import {createWeeklyOfferWorkflow} from "../../../workflows/create-weekly-offer";
 
 type PostAdminCreateWeeklyOfferType = z.infer<typeof PostAdminCreateWeeklyOffer>;
 

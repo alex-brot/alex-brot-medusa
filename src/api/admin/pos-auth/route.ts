@@ -1,8 +1,8 @@
 import { MedusaRequest, MedusaResponse, Query } from "@medusajs/framework";
 import { CustomerDTO } from "@medusajs/framework/types";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
-import { addNfcWorkflow } from "src/workflows/add-nfc-to-posauth";
-import { createPosAuthWorkflow, CreatePosAuthWorkflowInput } from "src/workflows/create-posauth";
+import {createPosAuthWorkflow, CreatePosAuthWorkflowInput} from "../../../workflows/create-posauth";
+import {addNfcWorkflow} from "../../../workflows/add-nfc-to-posauth";
 
 export const POST = async (
   req: MedusaRequest<CreatePosAuthWorkflowInput>,
@@ -11,7 +11,7 @@ export const POST = async (
   console.log(req.scope);
   console.log(req.body);
 
-  const { result } = await createPosAuthWorkflow(req.scope).run({
+const { result } = await createPosAuthWorkflow(req.scope).run({
     input: {
       customerId: req.body.customerId,
     },
