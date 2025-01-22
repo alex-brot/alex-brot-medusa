@@ -35,6 +35,9 @@ export default defineConfig({
       resolve: "./src/modules/weekly-offers-module",
     },
     {
+      resolve: "./src/modules/pos-module",
+    },
+    {
       resolve: "@medusajs/medusa/file",
       options: {
         providers: [
