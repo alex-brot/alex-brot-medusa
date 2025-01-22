@@ -22,13 +22,13 @@ RUN pnpm run build && echo "Build completed" && ls -la /app/medusa
 FROM node:23.6.0-slim
 WORKDIR /app/medusa
 
+RUN mkdir ./.medusa/
+COPY --from=builder /app/medusa/.medusa ./.medusa
 COPY --from=prod-deps /app/medusa/node_modules ./node_modules
-COPY --from=builder /app/medusa/.medusa ./
 
-WORKDIR /app/medusa/.medusa/server
 RUN npm install -g @medusajs/medusa-cli
 
 EXPOSE 9000
 
-ENTRYPOINT ["sh", "-c", "npx medusa db:migrate && npx medusa start"]
+ENTRYPOINT ["sh", "-c", "cd .medusa/server/ && npx medusa db:migrate && npx medusa start"]
 
