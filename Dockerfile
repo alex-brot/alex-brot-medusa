@@ -17,12 +17,16 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-l
 FROM base as builder
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run build
+RUN ls -la /
+RUN ls -la /app/
+RUN ls -la /app/medusa/
+RUN ls -la /app/medusa/.medusa/
 
 FROM node:23.6.0-slim
 WORKDIR /app/medusa
 
 COPY --from=prod-deps /app/medusa/node_modules ./node_modules
-COPY --from=builder /app/medusa/.medusa ./ ./
+COPY --from=builder /app/medusa/.medusa ./ || true
 
 RUN pnpm install -g @medusajs/medusa-cli
 
