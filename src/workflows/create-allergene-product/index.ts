@@ -3,8 +3,8 @@ import { createWorkflow, transform, when, WorkflowResponse } from "@medusajs/fra
 import { createAllergeneProductStep } from "./steps/create-allergene-product";
 import { createRemoteLinkStep } from "@medusajs/medusa/core-flows";
 import { Modules } from "@medusajs/framework/utils";
-import { ALLERGEN_MODULE } from "src/modules/allergen-module";
 import {Allergen} from "../../../.medusa/types/query-entry-points";
+import {ALLERGEN_MODULE} from "../../modules/allergen-module";
 
 export type CreateAllergenProductWorkflowInput = {
   product: ProductDTO;

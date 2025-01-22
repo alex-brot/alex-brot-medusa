@@ -1,9 +1,9 @@
 import {ContainerRegistrationKeys} from "@medusajs/framework/utils";
 import {StepResponse} from "@medusajs/framework/workflows-sdk";
 import {createProductsWorkflow} from "@medusajs/medusa/core-flows";
-import {ALLERGEN_MODULE} from "src/modules/allergen-module";
-import AllergenModuleService from "src/modules/allergen-module/service";
 import {Allergen} from "../../../.medusa/types/query-entry-points";
+import {ALLERGEN_MODULE} from "../../modules/allergen-module";
+import AllergenModuleService from "../../modules/allergen-module/service";
 
 createProductsWorkflow.hooks.productsCreated(
     (async ({ products, additional_data }, { container }) => {
