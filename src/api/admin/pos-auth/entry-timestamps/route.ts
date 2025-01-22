@@ -1,7 +1,7 @@
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework";
 import { z } from "zod";
 import { PostAdminCreateEntryTimestamp } from "./validators";
-import { createEntryTimeStampWorkflow } from "src/workflows/create-entry-timestamp";
+import {createEntryTimeStampWorkflow} from "../../../../workflows/create-entry-timestamp";
 
 type PostAdminCreateEntryTimestampType = z.infer<
   typeof PostAdminCreateEntryTimestamp
