@@ -10,12 +10,11 @@ RUN apt-get update
 
 RUN apt-get install -y python3
 
-RUN npm install -g npm@latest
+RUN npm install -g pnpm@latest
 
-RUN npm install --loglevel=error
+RUN pnpm install --loglevel=error
 
-RUN npm run build
-
+RUN pnpm run build
 
 FROM node:23.6.0-alpine3.20
 
@@ -33,15 +32,13 @@ RUN mkdir ./.medusa/
 
 COPY --from=builder /app/medusa/.medusa ./.medusa
 
-#RUN apt-get update
-#
-#RUN apt-get install -y python
 RUN apk add --no-cache python3
 
-RUN npm install -g @medusajs/medusa-cli
+RUN pnpm install -g @medusajs/medusa-cli
 
-RUN npm i --only=production
+RUN pnpm install --prod
 
 EXPOSE 9000
 
 ENTRYPOINT ["sh", "-c", "npx medusa db:migrate && npx medusa start"]
+
