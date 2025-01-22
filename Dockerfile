@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y python3 --no-install-recommends && rm -
 RUN corepack enable
 
 COPY src/ ./src/
-COPY package.json pnpm-lock.yaml tsconfig.json medusa-config* ./ # Ensure medusa-config is included
+COPY package.json pnpm-lock.yaml tsconfig.json medusa-config* ./
 
 FROM base as prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
