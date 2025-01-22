@@ -23,9 +23,9 @@ FROM node:23.6.0-slim
 WORKDIR /app/medusa
 
 COPY --from=prod-deps /app/medusa/node_modules ./node_modules
-COPY --from=builder /app/medusa/.medusa/server ./
+COPY --from=builder /app/medusa/.medusa ./
 
-ENV NODE_ENV production
+WORKDIR /app/medusa/.medusa/server
 RUN npm install -g @medusajs/medusa-cli
 
 EXPOSE 9000
