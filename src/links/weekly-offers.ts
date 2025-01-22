@@ -1,6 +1,6 @@
 import { defineLink } from "@medusajs/framework/utils";
+import weeklyOffersModule from "../modules/weekly-offers-module";
 import ProductModule from "@medusajs/medusa/product";
-import weeklyOffersModule from "src/modules/weekly-offers-module";
 
 export default defineLink(
     {
