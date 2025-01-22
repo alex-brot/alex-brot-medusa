@@ -9,28 +9,24 @@ RUN apt-get update && apt-get install -y python3 --no-install-recommends && rm -
 
 RUN corepack enable
 
-COPY package.json pnpm-lock.yaml ./
+COPY src/ ./src/
+COPY package.json pnpm-lock.yaml tsconfig.json medusa-config* ./
 
 FROM base as prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
 FROM base as builder
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm run build
-RUN ls -la /
-RUN ls -la /app/
-RUN ls -la /app/medusa/
-RUN ls -la /app/medusa/.medusa/
+RUN pnpm run build && echo "Build completed" && ls -la /app/medusa
 
 FROM node:23.6.0-slim
 WORKDIR /app/medusa
 
 COPY --from=prod-deps /app/medusa/node_modules ./node_modules
-COPY --from=builder /app/medusa/.medusa ./ || true
+COPY --from=builder /app/medusa/.medusa ./
 
-RUN pnpm install -g @medusajs/medusa-cli
+RUN npm install -g @medusajs/medusa-cli
 
 EXPOSE 9000
 
 ENTRYPOINT ["sh", "-c", "npx medusa db:migrate && npx medusa start"]
-
