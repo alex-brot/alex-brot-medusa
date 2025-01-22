@@ -25,7 +25,7 @@ FROM base
 
 COPY --from=prod-deps /app/medusa/node_modules /app/medusa/node_modules
 COPY --from=builder /app/medusa/.medusa /app/medusa/.medusa
-COPY --from=builder /app/medusa/dist /app/medusa/dist
+#COPY --from=builder /app/medusa/dist /app/medusa/dist
 
 RUN pnpm install -g @medusajs/medusa-cli
 
