@@ -1,42 +1,33 @@
-FROM node:23.6.0 as builder
+FROM node:23.6.0 as base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
 WORKDIR /app/medusa
+
+RUN apt-get update && apt-get install -y python3 && rm -rf /var/lib/apt/lists/*
+
+RUN corepack enable
 
 COPY . .
 
-RUN rm -rf node_modules
+FROM base as prod-deps
 
-RUN apt-get update
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
-RUN apt-get install -y python3
+FROM base as builder
 
-RUN npm install -g pnpm@latest
-
-RUN pnpm install --loglevel=error
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm run build
 
-FROM node:23.6.0-alpine3.20
+FROM base
 
-WORKDIR /app/medusa
-
-COPY tsconfig.json ./
-
-COPY package*.json ./
-
-COPY medusa-config.prod.ts ./medusa-config.ts
-
-COPY src ./src
-
-RUN mkdir ./.medusa/
-
-COPY --from=builder /app/medusa/.medusa ./.medusa
-
-RUN apk add --no-cache python3
+COPY --from=prod-deps /app/medusa/node_modules /app/medusa/node_modules
+COPY --from=builder /app/medusa/.medusa /app/medusa/.medusa
+COPY --from=builder /app/medusa/dist /app/medusa/dist
 
 RUN pnpm install -g @medusajs/medusa-cli
-
-RUN pnpm install --prod
 
 EXPOSE 9000
 
