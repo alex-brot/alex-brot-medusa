@@ -1,4 +1,4 @@
-FROM node:23.6.0-slim as baseFROM node:23.6.0 as builder
+FROM node:23.6.0 as builder
 
 WORKDIR /app/medusa
 
