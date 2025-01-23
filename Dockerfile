@@ -1,35 +1,47 @@
-FROM node:23.6.0-slim as base
-
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+FROM node:23.6.0-slim as baseFROM node:23.6.0 as builder
 
 WORKDIR /app/medusa
 
-RUN apt-get update && apt-get install -y python3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
-
-RUN corepack enable
-
-COPY src/ ./src/
-COPY package.json pnpm-lock.yaml tsconfig.json medusa-config*.ts ./
-
-FROM base as prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
-
-FROM base as builder
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 COPY . .
-RUN pnpm run build
 
-FROM node:23.6.0-slim
+RUN rm -rf node_modules
+
+RUN apt-get update
+
+RUN apt-get install -y python3
+
+RUN npm install -g npm@latest
+
+RUN npm install --loglevel=error
+
+RUN npm run build
+
+
+FROM node:23.6.0-alpine3.20
+
 WORKDIR /app/medusa
+
+COPY tsconfig.json ./
+
+COPY package*.json ./
+
+COPY medusa-config.prod.ts ./medusa-config.ts
+
+COPY src ./src
 
 RUN mkdir ./.medusa/
+
 COPY --from=builder /app/medusa/.medusa ./.medusa
-COPY --from=prod-deps /app/medusa/node_modules ./node_modules
+
+#RUN apt-get update
+#
+#RUN apt-get install -y python
+RUN apk add --no-cache python3
 
 RUN npm install -g @medusajs/medusa-cli
 
+RUN npm i --only=production
+
 EXPOSE 9000
 
-ENTRYPOINT ["sh", "-c", "cd .medusa/server/ && npx medusa db:migrate && npx medusa start"]
-
+ENTRYPOINT ["sh", "-c", "npx medusa db:migrate && npx medusa start"]
