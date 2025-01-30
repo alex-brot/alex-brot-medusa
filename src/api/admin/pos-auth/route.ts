@@ -24,7 +24,7 @@ export const GET = async (req: MedusaRequest<CustomerDTO>, res: MedusaResponse) 
 
   const { data } = await query.graph({
     entity: "pos_auth",
-    fields: ["code", "nfc_code"],
+    fields: ["code", "nfcCode"],
     pagination: {
       skip: 0,
       order: {
