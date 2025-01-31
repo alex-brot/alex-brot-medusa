@@ -109,7 +109,6 @@ const WeeklyOfferPage: React.FC = () => {
   });
 
   const handleSubmit = async () => {
-    //TODO: implement submit
     console.log(selectedProductIds);
     console.log(dateRange);
     if (!dateRange?.from || !dateRange!.to) {
