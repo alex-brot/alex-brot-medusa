@@ -8,6 +8,9 @@ export default defineConfig({
       return {
         server: {
           allowedHosts: [".medusa.alex-brot.stenz.dev"], // replace ".medusa-server-testing.com" with ".yourdomain.com"
+	  fs: {
+      	    allow: ['..'],
+    	  },
         },
       };
     },
