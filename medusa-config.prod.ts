@@ -7,7 +7,7 @@ export default defineConfig({
     vite: () => {
       return {
         server: {
-          llowedHosts: [".medusa.alex-brot.stenz.dev"], // replace ".medusa-server-testing.com" with ".yourdomain.com"
+          allowedHosts: [".medusa.alex-brot.stenz.dev"], // replace ".medusa-server-testing.com" with ".yourdomain.com"
         },
       };
     },
