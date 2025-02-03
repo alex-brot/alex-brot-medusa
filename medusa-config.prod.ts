@@ -3,7 +3,6 @@ import { loadEnv, defineConfig } from "@medusajs/framework/utils";
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
 export default defineConfig({
-  redisUrl: process.env.REDIS_URL,
   admin: {
     vite: () => {
       return {
@@ -17,6 +16,7 @@ export default defineConfig({
     },
   },
   projectConfig: {
+    redisUrl: process.env.REDIS_URL,
     databaseUrl: process.env.DATABASE_URL,
     http: {
       storeCors: process.env.STORE_CORS!,
