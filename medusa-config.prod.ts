@@ -3,6 +3,15 @@ import { loadEnv, defineConfig } from "@medusajs/framework/utils";
 loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 
 export default defineConfig({
+  admin: {
+    vite: () => {
+      return {
+        server: {
+          llowedHosts: [".medusa.alex-brot.stenz.dev"], // replace ".medusa-server-testing.com" with ".yourdomain.com"
+        },
+      };
+    },
+  },
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
     http: {
