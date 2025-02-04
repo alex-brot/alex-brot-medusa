@@ -25,7 +25,7 @@ FROM node:20-slim
 WORKDIR /app/medusa
 
 RUN mkdir ./.medusa/
-COPY --from=builder /app/medusa/.medusa ./.medusa
+COPY --from=builder /app/medusa/ .
 
 RUN ln -s .medusa/server/public/ public
 COPY --from=builder /app/medusa/node_modules ./node_modules
