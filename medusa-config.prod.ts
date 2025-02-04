@@ -16,7 +16,7 @@ export default defineConfig({
     },
   },
   projectConfig: {
-    redisUrl: process.env.REDIS_URL,
+    #redisUrl: process.env.REDIS_URL,
     databaseUrl: process.env.DATABASE_URL,
     http: {
       storeCors: process.env.STORE_CORS!,
