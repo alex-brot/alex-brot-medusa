@@ -1,4 +1,4 @@
-FROM node:20-slim as base
+FROM node:20-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -13,12 +13,15 @@ RUN pnpm --version
 COPY src/ ./src/
 COPY package.json pnpm-lock.yaml tsconfig.json medusa-config*.ts ./
 
-#FROM base as prod-deps
-#RUN rm -rf /pnpm/store
-#RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile --no-verify-store-integrity
+FROM base AS prod-deps
+RUN rm -rf /pnpm/store
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --prod --frozen-lockfile --no-verify-store-integrity && \
+    pnpm add -g -g @medusajs/medusa-cli
 
-FROM base as builder
+FROM base AS builder
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+ENV NODE_ENV="production"
 RUN pnpm run build && echo "Build completed" && ls -la /app/medusa
 
 FROM node:20-slim
@@ -28,9 +31,7 @@ RUN mkdir ./.medusa/
 COPY --from=builder /app/medusa/ .
 
 RUN ln -s .medusa/server/public/ public
-COPY --from=builder /app/medusa/node_modules ./node_modules
-
-RUN npm install -g @medusajs/medusa-cli
+COPY --from=prod-deps /app/medusa/node_modules ./node_modules
 
 EXPOSE 9000
 
