@@ -1,7 +1,8 @@
-import { MedusaRequest, MedusaResponse } from "@medusajs/framework";
+import { MedusaRequest, MedusaResponse, Query } from "@medusajs/framework";
 import { z } from "zod";
 import { PostAdminCreateEntryTimestamp } from "./validators";
 import {createEntryTimeStampWorkflow} from "../../../../workflows/create-entry-timestamp";
+import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 
 type PostAdminCreateEntryTimestampType = z.infer<
   typeof PostAdminCreateEntryTimestamp
@@ -23,3 +24,19 @@ export const POST = async (
   });
   return res.status(201).json(result);
 };
+
+export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
+  const query = req.scope.resolve<Query>(ContainerRegistrationKeys.QUERY)
+
+  const { data } = await query.graph({
+    entity: "entry_timestamp",
+    fields: ["*", "posAuth.customer.*"],
+    pagination: {
+      skip: 0,
+      order: {
+        created_at: "desc",
+      }
+    }
+  })
+  return res.json(data)
+}
