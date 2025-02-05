@@ -2,6 +2,7 @@ import { SubscriberArgs, type SubscriberConfig } from "@medusajs/framework";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import {POS_MODULE} from "../modules/pos-module";
 import PosService from "../modules/pos-module/service";
+import { createPosAuthWorkflow } from "src/workflows/create-posauth";
 
 export default async function orderPlacedHandler({
   event: { data },
