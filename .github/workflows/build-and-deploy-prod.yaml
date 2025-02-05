@@ -70,15 +70,15 @@ jobs:
           git add ./alex-brot/overlays/prod/kustomization.yaml
           git commit -m "Automated image version bump to ${{ env.TAG }}"
           git config --unset-all http.https://github.com/.extraheader
-          git push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:auto-bump-${{ env.IMAGE_NAME }}-${{ env.TAG }}-${{ github.run_number }}
+          git push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:auto-bump-${{ env.IMAGE_NAME }}-${{ env.TAG }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.K3S_REPO_PAT }}
           repository: ${{ env.DEPLOYMENTS_REPOSITORY }}
-          head: auto-bump-${{ env.IMAGE_NAME }}:${{ env.TAG }}-${{ github.run_number }}
-          branch: auto-bump-${{ env.IMAGE_NAME }}:${{ env.TAG }}-${{ github.run_number }}
+          head: auto-bump-${{ env.IMAGE_NAME }}-${{ env.TAG }}
+          branch: auto-bump-${{ env.IMAGE_NAME }}-${{ env.TAG }}
           base: main
           delete-branch: true
           title: "[${{github.action_repository}}] Automated image version bump to ${{ env.TAG }}"
