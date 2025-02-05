@@ -18,8 +18,6 @@ permissions:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    # Only on main brach
-    #if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -63,7 +61,7 @@ jobs:
 
       - name: Modify file
         run: |
-          sed -i 's|\(image: ghcr.io/alex-brot/alex-brot-medusa:\)v[0-9]\+\.[0-9]\+\.[0-9]\+|\1${{ env.TAG }}|' ./alex-brot/overlays/prod/kustomization.yaml
+          sed -i 's|\(image: ${{ env.REGISTRY }}/${{ env.GITHUB_USER }}/${{ env.IMAGE_NAME }}:\).*|\1${{ github.run_id }}|' ./alex-brot/overlays/prod/kustomization.yaml
 
       - name: Commit and Push changes
         run: |
@@ -72,7 +70,7 @@ jobs:
           git add ./alex-brot/overlays/prod/kustomization.yaml
           git commit -m "Automated image version bump to ${{ env.TAG }}"
           git config --unset-all http.https://github.com/.extraheader
-          git push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:auto-bump-prod-image-${{ github.run_number }}
+          git push https://${{ secrets.K3S_REPO_PAT }}@github.com/alex-brot/deployments.git HEAD:auto-bump-${{ env.IMAGE_NAME }}:${{ env.TAG }}-${{ github.run_number }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
@@ -80,7 +78,7 @@ jobs:
           token: ${{ secrets.K3S_REPO_PAT }}
           repository: ${{ env.DEPLOYMENTS_REPOSITORY }}
           head: auto-bump-prod-image-${{ github.run_number }}
-          branch: auto-bump-prod-image-${{ github.run_number }}
+          branch: auto-bump-${{ env.IMAGE_NAME }}:${{ env.TAG }}-${{ github.run_number }}
           base: main
           delete-branch: true
           title: "[${{github.action_repository}}] Automated image version bump to ${{ env.TAG }}"
