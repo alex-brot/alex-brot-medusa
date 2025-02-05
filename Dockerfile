@@ -35,5 +35,5 @@ COPY --from=prod-deps /app/medusa/node_modules ./node_modules
 
 EXPOSE 9000
 
-ENTRYPOINT ["sh", "-c", "cd .medusa/server/ && npx medusa db:migrate && npx medusa start"]
+ENTRYPOINT ["sh", "-c", "cd .medusa/server/ && npx medusa db:migrate --execute-safe-links && npx medusa start"]
 
