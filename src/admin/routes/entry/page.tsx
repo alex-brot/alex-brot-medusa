@@ -46,13 +46,17 @@ const EntryPage: React.FC = () => {
 
 
 export const EntryTableRow = ({ entry }: { entry: EntryTimestamp }) => {
-    const customer = entry.posAuth.customer as Customer
+    const customer = entry.posAuth.customer as Customer | null
     const timestamp = new Date(entry.timestamp)
     return (
         <Table.Row>
             <Table.Cell>{timestamp.toDateString()} {timestamp.toTimeString()}</Table.Cell>
             <Table.Cell className="w-1 h-1">{entry.typeOfEntry}</Table.Cell>
-            <Table.Cell>{customer.first_name} {customer.last_name}</Table.Cell>
+            {
+                customer ?
+                    <Table.Cell>{customer.first_name} {customer.last_name}</Table.Cell>
+                    : <Table.Cell>Customer not found</Table.Cell>
+            }
         </Table.Row>
     );
 };
