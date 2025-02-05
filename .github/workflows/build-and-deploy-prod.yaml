@@ -61,7 +61,7 @@ jobs:
 
       - name: Modify file
         run: |
-          sed -i 's|\(image: ${{ env.REGISTRY }}/${{ env.GITHUB_USER }}/${{ env.IMAGE_NAME }}:\).*|\1${{ github.run_id }}|' ./alex-brot/overlays/prod/kustomization.yaml
+          sed -i 's|\(image: ${{ env.REGISTRY }}/${{ env.GITHUB_USER }}/${{ env.IMAGE_NAME }}:\).*|\1${{ env.TAG }}|' ./alex-brot/overlays/prod/kustomization.yaml
 
       - name: Commit and Push changes
         run: |
@@ -77,7 +77,7 @@ jobs:
         with:
           token: ${{ secrets.K3S_REPO_PAT }}
           repository: ${{ env.DEPLOYMENTS_REPOSITORY }}
-          head: auto-bump-prod-image-${{ github.run_number }}
+          head: auto-bump-${{ env.IMAGE_NAME }}:${{ env.TAG }}-${{ github.run_number }}
           branch: auto-bump-${{ env.IMAGE_NAME }}:${{ env.TAG }}-${{ github.run_number }}
           base: main
           delete-branch: true
