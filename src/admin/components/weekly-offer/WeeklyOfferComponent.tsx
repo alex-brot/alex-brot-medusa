@@ -37,12 +37,6 @@ const WeeklyOfferComponent = ({
       </div>
       <p className="text-xs">products: {weeklyOffer.products.length}</p>
 
-      {weeklyOffer.products.length > 3 && (
-        <Button onClick={toggleExpand} className="mt-4">
-          {isExpanded ? "Show Less" : "Show More"}
-        </Button>
-      )}
-
       <Table className="mt-8 w-full">
         <Table.Header>
           <Table.Row>
@@ -59,6 +53,14 @@ const WeeklyOfferComponent = ({
           ))}
         </Table.Body>
       </Table>
+      {weeklyOffer.products.length > 3 && (
+          <div className="w-full flex items-center justify-center">
+            <Button onClick={toggleExpand} className="mt-4">
+              {isExpanded ? "Show Less" : "Show More "}
+            </Button>
+          </div>
+      )}
+
     </Container>
   );
 };
