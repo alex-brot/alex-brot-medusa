@@ -4,7 +4,7 @@ import { CalendarSolid } from "@medusajs/icons";
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sdk } from "../../lib/sdk";
-import { Button, Checkbox, DatePicker, DateRange, Table } from "@medusajs/ui";
+import { Button, Checkbox, DatePicker, DateRange, Input, Table } from "@medusajs/ui";
 import WeeklyOfferComponent, {
   WeeklyOfferComponentType,
 } from "../../components/weekly-offer/WeeklyOfferComponent";
@@ -179,8 +179,8 @@ const WeeklyOfferPage: React.FC = () => {
         </Table.Body>
       </Table>
       <div className="mt-12 bg-gray-100 dark:bg-zinc-800 p-2 rounded-md w-[250px]">
-        <p className="text-xs text-gray-900 dark:text-gray-300">title</p>
-        <h1 className="text-xl">{title}</h1>
+        <p className="text-xs text-gray-900 dark:text-gray-300 mb-2">Title</p>
+        <Input aria-label={"Title"} disabled={false} onChange={(e) => setTitle(e.target.value)} value={title} className="text-xl"/>
       </div>
       <div className="flex w-full flex-col justify-start mt-3 items-start">
         <div className="w-[250px]">
