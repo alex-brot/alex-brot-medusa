@@ -46,6 +46,7 @@ const WeeklyOfferPage: React.FC = () => {
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [title, setTitle] = useState<string>("");
+  const [weeklyOffers, setWeeklyOffers] = useState<WeeklyOffersResponse>()
 
   
 
@@ -87,6 +88,17 @@ const WeeklyOfferPage: React.FC = () => {
     selectedProductIds: string[];
   };
 
+  
+
+  const { data } = useQuery<AdminProductsResponse>({
+    queryFn: () => sdk.client.fetch(`/admin/products`),
+    queryKey: [["products"]],
+  });
+
+  const { data: weeklyOffersResponse } = useQuery<WeeklyOffersResponse>({
+    queryFn: () => sdk.client.fetch("/admin/weekly-offers"),
+    queryKey: ["offers"],
+  });
   const mutation = useMutation({
     mutationFn: (data: WeeklyOfferMutationType) =>
       sdk.client.fetch(`/admin/weekly-offers`, {
@@ -94,19 +106,15 @@ const WeeklyOfferPage: React.FC = () => {
         body: data,
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["weekly-offers"] });
+      queryClient.invalidateQueries({ queryKey: ["offers"] });
     },
   });
 
-  const { data } = useQuery<AdminProductsResponse>({
-    queryFn: () => sdk.client.fetch(`/admin/products`),
-    queryKey: [["products"]],
-  });
+  const weeklyOffersTemp = weeklyOffersResponse
 
-  const { data: weeklyOffers } = useQuery<WeeklyOffersResponse>({
-    queryFn: () => sdk.client.fetch("/admin/weekly-offers"),
-    queryKey: [["offers"]],
-  });
+   useEffect(() => {
+     setWeeklyOffers(weeklyOffersResponse);
+   }, [weeklyOffersTemp]);
 
   const handleSubmit = async () => {
     //TODO: implement submit
