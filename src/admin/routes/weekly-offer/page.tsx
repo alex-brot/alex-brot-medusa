@@ -1,13 +1,12 @@
-import { defineRouteConfig } from "@medusajs/admin-sdk";
-import { AdminProduct } from "@medusajs/framework/types";
-import { CalendarSolid } from "@medusajs/icons";
-import React, { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { sdk } from "../../lib/sdk";
-import { Button, Checkbox, DatePicker, DateRange, Input, Table } from "@medusajs/ui";
-import WeeklyOfferComponent, {
-  WeeklyOfferComponentType,
-} from "../../components/weekly-offer/WeeklyOfferComponent";
+import {defineRouteConfig} from "@medusajs/admin-sdk";
+import {AdminProduct} from "@medusajs/framework/types";
+import {CalendarSolid} from "@medusajs/icons";
+import React, {useEffect, useState} from "react";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {sdk} from "../../lib/sdk";
+import {Button, DatePicker, DateRange, Input,} from "@medusajs/ui";
+import WeeklyOfferComponent, {WeeklyOfferComponentType,} from "../../components/weekly-offer/WeeklyOfferComponent";
+import {ProductTable} from "../../components/weekly-offer/ProductTable.tsx";
 
 type AdminProductsResponse = {
   products: AdminProduct[];
@@ -48,36 +47,24 @@ const WeeklyOfferPage: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [weeklyOffers, setWeeklyOffers] = useState<WeeklyOffersResponse>()
 
-  
-
   useEffect(() => {
     const currentDate = new Date();
     const currentDatePlusFiveDaysRange = () => {
       const fiveDaysFromNow = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth(),
-        currentDate.getDate() + 5
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          currentDate.getDate() + 5
       );
       return {
         from: currentDate,
         to: fiveDaysFromNow,
       };
-
-      
     };
 
     setTitle(`kw ${getWeekNumber(currentDate)}`);
 
     setDateRange(currentDatePlusFiveDaysRange());
   }, []);
-
-  const toggleSelected = (id: string) => {
-    if (selectedProductIds.includes(id)) {
-      setSelectedProductIds(selectedProductIds.filter((p) => p !== id));
-    } else {
-      setSelectedProductIds([...selectedProductIds, id]);
-    }
-  };
 
   const queryClient = useQueryClient();
 
@@ -88,33 +75,29 @@ const WeeklyOfferPage: React.FC = () => {
     selectedProductIds: string[];
   };
 
-  
-
-  const { data } = useQuery<AdminProductsResponse>({
+  const {data} = useQuery<AdminProductsResponse>({
     queryFn: () => sdk.client.fetch(`/admin/products`),
     queryKey: [["products"]],
   });
 
-  const { data: weeklyOffersResponse } = useQuery<WeeklyOffersResponse>({
+  const {data: weeklyOffersResponse} = useQuery<WeeklyOffersResponse>({
     queryFn: () => sdk.client.fetch("/admin/weekly-offers"),
     queryKey: ["offers"],
   });
   const mutation = useMutation({
     mutationFn: (data: WeeklyOfferMutationType) =>
-      sdk.client.fetch(`/admin/weekly-offers`, {
-        method: "POST",
-        body: data,
-      }),
+        sdk.client.fetch(`/admin/weekly-offers`, {
+          method: "POST",
+          body: data,
+        }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["offers"] });
+      queryClient.invalidateQueries({queryKey: ["offers"]});
     },
   });
 
-  const weeklyOffersTemp = weeklyOffersResponse
-
-   useEffect(() => {
-     setWeeklyOffers(weeklyOffersResponse);
-   }, [weeklyOffersTemp]);
+  useEffect(() => {
+    setWeeklyOffers(weeklyOffersResponse);
+  }, [weeklyOffersResponse]);
 
   const handleSubmit = async () => {
     //TODO: implement submit
@@ -152,58 +135,53 @@ const WeeklyOfferPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Weekly Offer</h1>
-      <p>Welcome to the weekly offer page!</p>
+      <div>
+        <h1>Weekly Offer</h1>
 
-      <Table className="mt-8">
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Title</Table.HeaderCell>
-            <Table.HeaderCell>Thumnail</Table.HeaderCell>
-            <Table.HeaderCell>Select</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {data ? (
-            data.products.map((product) => (
-              <ProductTableRow
-                product={product as AdminProduct}
-                toggelSelected={toggleSelected}
-                key={product.id}
-              ></ProductTableRow>
-            ))
-          ) : (
-            <></>
-          )}
-        </Table.Body>
-      </Table>
-      <div className="mt-12 bg-gray-100 dark:bg-zinc-800 p-2 rounded-md w-[250px]">
-        <p className="text-xs text-gray-900 dark:text-gray-300 mb-2">Title</p>
-        <Input aria-label={"Title"} disabled={false} onChange={(e) => setTitle(e.target.value)} value={title} className="text-xl"/>
-      </div>
-      <div className="flex w-full flex-col justify-start mt-3 items-start">
-        <div className="w-[250px]">
-          <h3>From</h3>
-          <DatePicker
-            aria-label="from"
-            value={dateRange?.from}
-            onChange={(date) => {
-              handleDateChange(date, true);
-            }}
-          />
-          <h3 className="mt-4">To</h3>
-          <DatePicker
-            aria-label="to"
-            value={dateRange?.to}
-            onChange={(date) => {
-              handleDateChange(date, false);
-            }}
-          />
+        <div>
+          <p>Search</p>
+
         </div>
-        <div className="w-[250px] mt-4">
-          <Button className="w-full" size="large" onClick={handleSubmit}>
-            {/* {createIsLoading && (
+        {data ? (
+            <ProductTable data={data.products.map(product => {
+              const tableProduct: TableProduct = {
+                id: product.id,
+                title: product.title,
+                thumbnail: product.thumbnail || ""
+              }
+              return tableProduct
+            })}
+            setSelectedProductIds={setSelectedProductIds}
+            ></ProductTable>
+        ):<p>Loading Products...</p>
+        }
+        <div className="mt-12 bg-gray-100 dark:bg-zinc-800 p-2 rounded-md w-[250px]">
+          <p className="text-xs text-gray-900 dark:text-gray-300 mb-2">Title</p>
+          <Input aria-label={"Title"} disabled={false} onChange={(e) => setTitle(e.target.value)} value={title}
+                 className="text-xl"/>
+        </div>
+        <div className="flex w-full flex-col justify-start mt-3 items-start">
+          <div className="w-[250px]">
+            <h3>From</h3>
+            <DatePicker
+                aria-label="from"
+                value={dateRange?.from}
+                onChange={(date) => {
+                  handleDateChange(date, true);
+                }}
+            />
+            <h3 className="mt-4">To</h3>
+            <DatePicker
+                aria-label="to"
+                value={dateRange?.to}
+                onChange={(date) => {
+                  handleDateChange(date, false);
+                }}
+            />
+          </div>
+          <div className="w-[250px] mt-4">
+            <Button className="w-full" size="large" onClick={handleSubmit} disabled={selectedProductIds.length <= 0}>
+              {/* {createIsLoading && (
             <div role="status">
               <svg
                 aria-hidden="true"
@@ -224,61 +202,19 @@ const WeeklyOfferPage: React.FC = () => {
               <span className="sr-only">Loading...</span>
             </div>
           )} */}
-            Create Offer
-          </Button>
+              Create Offer
+            </Button>
+          </div>
+        </div>
+        <h1 className="text-xl mt-8">Weekly Offers</h1>
+        <div className="flex flex-wrap">
+          {weeklyOffers?.map((weeklyOffer) => (
+              <WeeklyOfferComponent
+                  weeklyOffer={weeklyOffer}
+              ></WeeklyOfferComponent>
+          ))}
         </div>
       </div>
-      <h1 className="text-xl mt-8">Weekly Offers</h1>
-      <div className="flex flex-wrap">
-        {weeklyOffers?.map((weeklyOffer) => (
-          <WeeklyOfferComponent
-            weeklyOffer={weeklyOffer}
-          ></WeeklyOfferComponent>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-type ProductTableRowProb = {
-  product: AdminProduct;
-  toggelSelected?: (id: string) => void;
-};
-
-export const ProductTableRow = ({
-  product,
-  toggelSelected,
-}: ProductTableRowProb) => {
-  const [isSelected, setIsSelected] = useState(false);
-  const handleSelected = () => {
-    const switchedState = !isSelected;
-    setIsSelected(switchedState);
-
-    toggelSelected!(product.id);
-  };
-
-  return (
-    <Table.Row>
-      <Table.Cell>{product.title}</Table.Cell>
-      {product.thumbnail ? (
-        <Table.Cell className="w-1 h-1">
-          <img className="w-8" src={product.thumbnail} />
-        </Table.Cell>
-      ) : (
-        <Table.Cell> None</Table.Cell>
-      )}
-      {toggelSelected !== undefined ? (
-        <Table.Cell>
-          <Checkbox
-            checked={isSelected}
-            id="product-weekly-offer"
-            onClick={() => handleSelected()}
-          />
-        </Table.Cell>
-      ) : (
-        <></>
-      )}
-    </Table.Row>
   );
 };
 
