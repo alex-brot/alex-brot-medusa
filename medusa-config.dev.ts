@@ -46,6 +46,7 @@ export default defineConfig({
             resolve: "@medusajs/medusa/file-local",
             id: "local",
             options: {
+              upload_dir: "static/uploads"
             },
           },
         ],
