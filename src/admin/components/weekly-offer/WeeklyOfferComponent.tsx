@@ -4,6 +4,7 @@ import { AdminProduct } from "@medusajs/framework/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sdk } from "../../lib/sdk";
 import { ProductTable, TableProduct } from "./ProductTable.tsx";
+import {XMark} from "@medusajs/icons";
 
 export type WeeklyOfferComponentType = {
   id: string;
@@ -142,9 +143,9 @@ const WeeklyOfferComponent = ({
                   </Button>
               )}
           </div>
-
-
-          <Button className="absolute top-3 right-3" onClick={() => deleteConfirmationDialog()}>X</Button>
+          <Button className="absolute top-3 right-3 pl-2 pr-2" onClick={() => deleteConfirmationDialog()}>
+              <XMark></XMark>
+          </Button>
       </Container>
   );
 };

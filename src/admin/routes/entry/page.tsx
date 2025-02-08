@@ -3,7 +3,7 @@ import { ScrollText } from "@medusajs/icons";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { sdk } from "../../lib/sdk";
-import { Table } from "@medusajs/ui";
+import {Heading, Table} from "@medusajs/ui";
 import { Customer, EntryTimestamp } from "../../../../.medusa/types/query-entry-points";
 
 type EntryTimestampsResponse = EntryTimestamp[];
@@ -17,7 +17,7 @@ const EntryPage: React.FC = () => {
 
     return (
         <div>
-            <h1>Access Log</h1>
+            <Heading>Access Log</Heading>
 
             <Table className="mt-8">
                 <Table.Header>
