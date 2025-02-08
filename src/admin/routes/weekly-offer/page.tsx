@@ -137,17 +137,16 @@ const WeeklyOfferPage: React.FC = () => {
     return (
         <div>
             <Heading className="text-2xl mt-8 mb-6">New Weekly Offer</Heading>
-            <div className="flex">
-                <div className="mr-4 flex flex-col justify-between">
+            <div className="flex flex-col-reverse sm:flex-row">
+                <div className="mr-4 flex flex-col justify-between w-full mt-6 sm:mt-0 sm:w-[250px]">
                     <div>
-                        <div className="bg-gray-100 dark:bg-zinc-800 p-2 rounded-md w-[250px]">
+                        <div className="bg-gray-100 dark:bg-zinc-800 p-2 rounded-md w-full sm:w-[250px]">
                             <p className="text-xs text-gray-900 dark:text-gray-300 mb-2">Title</p>
                             <Input aria-label={"Title"} disabled={false} onChange={(e) => setTitle(e.target.value)}
-                                   value={title}
-                                   className="text-xl"/>
+                                   value={title} className="text-xl"/>
                         </div>
                         <div className="flex w-full flex-col justify-start mt-3 items-start">
-                            <div className="w-[250px]">
+                            <div className="w-full sm:w-[250px]">
                                 <h3>From</h3>
                                 <DatePicker
                                     aria-label="from"
@@ -169,35 +168,35 @@ const WeeklyOfferPage: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-[250px]">
+                    <div className="w-full sm:w-[250px] mt-4">
                         <Button className="w-full" size="large" onClick={handleSubmit}
                                 disabled={selectedProductIds.length <= 0}>
-
                             Create Offer
                         </Button>
                     </div>
                 </div>
                 {data ? (
-                    <Container>
-                    <ProductTable data={data.products.map(product => {
-                        const tableProduct: TableProduct = {
-                            id: product.id,
-                            title: product.title,
-                            thumbnail: product.thumbnail || ""
-                        }
-                        return tableProduct
-                    })}
-                                  setSelectedProductIds={setSelectedProductIds}
-                    ></ProductTable>
+                    <Container className="flex-1">
+                        <ProductTable data={data.products.map(product => {
+                            const tableProduct: TableProduct = {
+                                id: product.id,
+                                title: product.title,
+                                thumbnail: product.thumbnail || ""
+                            };
+                            return tableProduct;
+                        })}
+                                      setSelectedProductIds={setSelectedProductIds}
+                        ></ProductTable>
                     </Container>
-                ) : <p>Loading Products...</p>
-                }
+                ) : <p>Loading Products...</p>}
             </div>
             <Heading className="text-2xl mt-8">Weekly Offers</Heading>
-            <div className="flex flex-wrap">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
                 {weeklyOffers?.map((weeklyOffer) => (
                     <WeeklyOfferComponent
+                        key={weeklyOffer.id}
                         weeklyOffer={weeklyOffer}
+                        className="w-full"
                     ></WeeklyOfferComponent>
                 ))}
             </div>
