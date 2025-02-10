@@ -4,6 +4,8 @@ import { z } from "zod";
 import { PostAdminCreateWeeklyOffer } from "./validators";
 import { Query } from "@medusajs/framework";
 import {createWeeklyOfferWorkflow} from "../../../workflows/create-weekly-offer";
+import { WEEKLY_OFFERS_MODULE } from "src/modules/weekly-offers-module";
+import { EndNowAndDeleteType } from "src/admin/components/weekly-offer/WeeklyOfferComponent";
 
 type PostAdminCreateWeeklyOfferType = z.infer<typeof PostAdminCreateWeeklyOffer>;
 
@@ -30,15 +32,38 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   //at the moment only returns id
   const { data } = await query.graph({
     entity: "weekly_offer",
-    fields: ["id", "title", "from", "to", "products.*"],
+    fields: ["id", "title", "start", "end", "products.*"],
     pagination: {
       skip: 0,
       take: 20,
       order: {
-        from: "desc",
+        end: "desc",
       }
     }
   })
 
   return res.json(data)
 }
+
+export const DELETE = async (req: MedusaRequest<EndNowAndDeleteType>, res: MedusaResponse) => {
+  const weeklyOfferService = req.scope.resolve(WEEKLY_OFFERS_MODULE)
+
+  weeklyOfferService.softDeleteWeeklyOffers(req.body.weeklyOfferId)
+
+  return res.status(204)
+}
+
+export const PATCH = async (
+  req: MedusaRequest<EndNowAndDeleteType>,
+  res: MedusaResponse
+) => {
+  const weeklyOfferService = req.scope.resolve(WEEKLY_OFFERS_MODULE);
+
+  weeklyOfferService.updateWeeklyOffers({
+    id: req.body.weeklyOfferId,
+
+    end: Date.now(),
+  });
+
+  return res.status(204);
+};

@@ -24,8 +24,8 @@
           "nullable": false,
           "mappedType": "text"
         },
-        "from": {
-          "name": "from",
+        "start": {
+          "name": "start",
           "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
@@ -34,8 +34,8 @@
           "length": 6,
           "mappedType": "datetime"
         },
-        "to": {
-          "name": "to",
+        "end": {
+          "name": "end",
           "type": "timestamptz",
           "unsigned": false,
           "autoincrement": false,
@@ -84,6 +84,7 @@
           "keyName": "IDX_weekly_offer_deleted_at",
           "columnNames": [],
           "composite": false,
+          "constraint": false,
           "primary": false,
           "unique": false,
           "expression": "CREATE INDEX IF NOT EXISTS \"IDX_weekly_offer_deleted_at\" ON \"weekly_offer\" (deleted_at) WHERE deleted_at IS NULL"
@@ -94,12 +95,21 @@
             "id"
           ],
           "composite": false,
+          "constraint": true,
           "primary": true,
           "unique": true
         }
       ],
-      "checks": [],
-      "foreignKeys": {}
+      "checks": [
+        {
+          "name": "weekly_offer_check",
+          "expression": "start < end",
+          "definition": "check ((start < end))"
+        }
+      ],
+      "foreignKeys": {},
+      "nativeEnums": {}
     }
-  ]
+  ],
+  "nativeEnums": {}
 }
