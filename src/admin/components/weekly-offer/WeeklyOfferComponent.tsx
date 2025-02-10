@@ -9,8 +9,8 @@ import {XMark} from "@medusajs/icons";
 export type WeeklyOfferComponentType = {
     id: string;
     title: string;
-    from: string;
-    to: string;
+    start: string;
+    end: string;
     products: [{ id: string }];
 };
 
@@ -28,9 +28,9 @@ const WeeklyOfferComponent = ({
 
     useEffect(() => {
         setIsActiveOffer(
-            Date.parse(weeklyOffer.from) <= Date.now() && Date.now() <= Date.parse(weeklyOffer.to)
+            Date.parse(weeklyOffer.start) <= Date.now() && Date.now() <= Date.parse(weeklyOffer.end)
         );
-    }, [weeklyOffer.from, weeklyOffer.to]);
+    }, [weeklyOffer.start, weeklyOffer.end]);
 
     const toggleExpand = () => {
         setIsExpanded(prevIsExpanded => {
@@ -106,8 +106,8 @@ const WeeklyOfferComponent = ({
             <h1 className="text-xl">{weeklyOffer.title}</h1>
             <div className="flex text-xs">
                 <p>
-                    {new Date(weeklyOffer.from).toDateString()} -{" "}
-                    {new Date(weeklyOffer.to).toDateString()}
+                    {new Date(weeklyOffer.start).toDateString()} -{" "}
+                    {new Date(weeklyOffer.end).toDateString()}
                 </p>
             </div>
             <p className="text-xs">products: {weeklyOffer.products.length}</p>

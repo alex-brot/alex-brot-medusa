@@ -14,8 +14,8 @@ import {WeeklyOffer} from "../../.medusa/types/query-entry-points";
 
 export type CreateWeeklyOfferWorkflowInput = {
   title: string;
-  from: Date;
-  to: Date;
+  start: Date;
+  end: Date;
   selectedProductIds: string[];
 };
 
@@ -32,8 +32,8 @@ export const creatWeeklyOfferStep = createStep(
 
     const createEmptyWeeklyOfferInput: CreateEmptyWeeklyOffer = {
       title: input.title,
-      from: input.from,
-      to: input.to,
+      start: input.start,
+      end: input.end,
     };
 
     const weeklyOffersModuleService: WeeklyOffersModuleService =

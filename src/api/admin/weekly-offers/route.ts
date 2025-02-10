@@ -5,7 +5,6 @@ import { PostAdminCreateWeeklyOffer } from "./validators";
 import { Query } from "@medusajs/framework";
 import {createWeeklyOfferWorkflow} from "../../../workflows/create-weekly-offer";
 import { WEEKLY_OFFERS_MODULE } from "src/modules/weekly-offers-module";
-import { WeeklyOffer } from ".medusa/types/query-entry-points";
 import { EndNowAndDeleteType } from "src/admin/components/weekly-offer/WeeklyOfferComponent";
 
 type PostAdminCreateWeeklyOfferType = z.infer<typeof PostAdminCreateWeeklyOffer>;
@@ -33,12 +32,12 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   //at the moment only returns id
   const { data } = await query.graph({
     entity: "weekly_offer",
-    fields: ["id", "title", "from", "to", "products.*"],
+    fields: ["id", "title", "start", "end", "products.*"],
     pagination: {
       skip: 0,
       take: 20,
       order: {
-        from: "desc",
+        end: "desc",
       }
     }
   })

@@ -71,8 +71,8 @@ const WeeklyOfferPage: React.FC = () => {
 
     type WeeklyOfferMutationType = {
         title: string;
-        from: Date;
-        to: Date;
+        start: Date;
+        end: Date;
         selectedProductIds: string[];
     };
 
@@ -119,7 +119,7 @@ const WeeklyOfferPage: React.FC = () => {
         }
 
         if (weeklyOffers?.some(offer =>
-            dateRange.from <= Date.parse(offer.to) && dateRange.to >= Date.parse(offer.from)
+            dateRange.from <= Date.parse(offer.end) && dateRange.to >= Date.parse(offer.start)
         )) {
             toast.error("Invalid Dates", {
                 description: "The Date range overlaps with one of your weekly offers",
@@ -129,8 +129,8 @@ const WeeklyOfferPage: React.FC = () => {
 
         const data = {
             title: title,
-            from: dateRange?.from,
-            to: dateRange?.to,
+            start: dateRange?.from,
+            end: dateRange?.to,
             selectedProductIds: selectedProductIds,
         };
         console.log(JSON.stringify(data));
@@ -211,10 +211,9 @@ const WeeklyOfferPage: React.FC = () => {
             </div>
             <Heading className="text-2xl mt-8">Weekly Offers</Heading>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-                {weeklyOffers?.sort((a, b) => new Date(b.to).getTime() - new Date(a.to).getTime()).map((weeklyOffer) => (                    <WeeklyOfferComponent
+                {weeklyOffers?.sort((a, b) => new Date(b.end).getTime() - new Date(a.end).getTime()).map((weeklyOffer) => (                    <WeeklyOfferComponent
                         key={weeklyOffer.id}
                         weeklyOffer={weeklyOffer}
-                        className="w-full"
                     ></WeeklyOfferComponent>
                 ))}
             </div>
