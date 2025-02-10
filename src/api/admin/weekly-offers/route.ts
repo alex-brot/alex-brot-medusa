@@ -62,7 +62,7 @@ export const PATCH = async (
   weeklyOfferService.updateWeeklyOffers({
     id: req.body.weeklyOfferId,
 
-    to: Date.now(),
+    end: Date.now(),
   });
 
   return res.status(204);
