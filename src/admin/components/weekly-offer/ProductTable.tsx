@@ -14,11 +14,15 @@ const useCommands = () => {
 export function ProductTable({
                                  data,
                                  setSelectedProductIds,
-                                 pageSize
+                                 pageSize,
+                                 columns,
                              }: {
     data: TableProduct[],
     setSelectedProductIds?: React.Dispatch<React.SetStateAction<string[]>>,
-    pageSize?: number
+    pageSize?: number,
+    columns?: {
+        quantity: boolean,
+    },
 }) {
     const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
     const [search, setSearch] = useState("")
@@ -49,6 +53,12 @@ export function ProductTable({
                 header: "Thumbnail",
                 cell: (info) => <img src={info.getValue()} alt="Thumbnail" className="w-10 h-10" />, // Display image
             }),
+            ...(columns?.quantity ? [
+                columnHelper.accessor("quantity", {
+                    header: "Quantity",
+                    enableSorting: true
+                }),
+            ] : []),
         ],
         getRowId: (product) => product.id.toString(),
         rowCount: data.length,
@@ -91,4 +101,5 @@ export interface TableProduct{
     id: string,
     title: string,
     thumbnail: string,
+    quantity?: number,
 }
