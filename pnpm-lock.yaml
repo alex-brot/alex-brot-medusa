@@ -44,6 +44,9 @@ importers:
       '@rsc-labs/medusa-documents-v2':
         specifier: 0.2.0
         version: 0.2.0(d0538fa388df71f79a73e188cd0cd758)
+      '@tanstack/react-query':
+        specifier: ^5.64.2
+        version: 5.67.2(react@18.3.1)
       awilix:
         specifier: ^8.0.1
         version: 8.0.1
@@ -66,9 +69,6 @@ importers:
       '@swc/jest':
         specifier: ^0.2.37
         version: 0.2.37(@swc/core@1.5.7(@swc/helpers@0.5.15))
-      '@tanstack/react-query':
-        specifier: ^5.64.2
-        version: 5.67.2(react@18.3.1)
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
