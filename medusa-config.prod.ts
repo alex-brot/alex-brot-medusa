@@ -6,9 +6,12 @@ export default defineConfig({
   admin: {
     vite: () => {
       return {
+        optimizeDeps: {
+          include: ["@emotion/react", "@mui/material", "react-table"],
+        },
         server: {
           allowedHosts: [".medusa.alex-brot.stenz.dev"], // replace ".medusa-server-testing.com" with ".yourdomain.com"
-	  fs: {
+        fs: {
       	    allow: ['..'],
     	  },
         },
@@ -70,4 +73,11 @@ export default defineConfig({
       },
     },
   ],
+  plugins: [
+    {
+      resolve: "@rsc-labs/medusa-documents-v2",
+      options: {
+      },
+    }
+  ]
 });
