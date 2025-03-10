@@ -33,7 +33,7 @@ function groupOrdersByItemId(orders: WeeklyOrdersResponse): GroupedOrders {
 const WeeklyOrdersPage: React.FC = () => {
     const { data } = useQuery<WeeklyOrdersResponse>({
         queryFn: () => sdk.client.fetch(`/admin/orders/this-week`),
-        queryKey: [["products"]],
+        queryKey: ["weekly_orders"],
     });
 
     if (!data) return null;
