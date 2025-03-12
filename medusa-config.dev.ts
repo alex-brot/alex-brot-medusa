@@ -46,11 +46,27 @@ export default defineConfig({
             resolve: "@medusajs/medusa/file-local",
             id: "local",
             options: {
-              upload_dir: "static/uploads"
             },
           },
         ],
       },
     },
+
   ],
+  admin: {
+    vite: () => {
+      return {
+        optimizeDeps: {
+          include: ["@emotion/react", "@mui/material", "react-table"],
+        },
+      };
+    },
+  },
+  plugins: [
+    {
+      resolve: "@rsc-labs/medusa-documents-v2",
+      options: {
+      },
+    }
+  ]
 });

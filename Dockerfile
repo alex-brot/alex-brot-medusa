@@ -7,7 +7,7 @@ WORKDIR /app/medusa
 
 RUN apt-get update && apt-get install -y python3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g pnpm@8
+RUN npm install -g pnpm@10.5.2
 RUN pnpm --version
 
 COPY src/ ./src/
