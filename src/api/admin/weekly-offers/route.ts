@@ -3,7 +3,7 @@ import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { z } from "zod";
 import { PostAdminCreateWeeklyOffer } from "./validators";
 import { Query } from "@medusajs/framework";
-import {createWeeklyOfferWorkflow} from "../../../workflows/create-weekly-offer";
+import {createWeeklyOfferWorkflow, CreateWeeklyOfferWorkflowInput} from "../../../workflows/create-weekly-offer";
 import { WEEKLY_OFFERS_MODULE } from "src/modules/weekly-offers-module";
 import { EndNowAndDeleteType } from "src/admin/components/weekly-offer/WeeklyOfferComponent";
 

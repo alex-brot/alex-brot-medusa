@@ -22,6 +22,11 @@ export default defineMiddlewares({
       matcher: "/admin/products/",
     },
     // {
+    //   method: "PATCH",
+    //   matcher: "/admin/shipping-options/",
+    //   middlewares: []
+    // }
+    // {
     //   matcher: "/store/pos-auth*",
     //   middlewares: [authenticate("customer", ["session", "bearer"])],
     // },
