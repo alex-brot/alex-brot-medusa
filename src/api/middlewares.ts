@@ -21,6 +21,10 @@ export default defineMiddlewares({
       method: "POST",
       matcher: "/admin/products/",
     },
+    {
+      method: "GET",
+      matcher: "/admin/customer-management",
+    }
     // {
     //   matcher: "/store/pos-auth*",
     //   middlewares: [authenticate("customer", ["session", "bearer"])],
