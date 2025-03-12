@@ -17,17 +17,17 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     fields: [
       "id",
       "title",
-      "from",
-      "to",
+      "start",
+      "end",
       "products.*",
       "products.variants.*",
       "products.variants.calculated_price.*",
     ],
     filters: {
-      from: {
+      start: {
         $lte: fromDate,
       },
-      to: {
+      end: {
         $gte: toDate,
       },
     },

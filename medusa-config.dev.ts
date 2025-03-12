@@ -51,5 +51,22 @@ export default defineConfig({
         ],
       },
     },
+
   ],
+  admin: {
+    vite: () => {
+      return {
+        optimizeDeps: {
+          include: ["@emotion/react", "@mui/material", "react-table"],
+        },
+      };
+    },
+  },
+  plugins: [
+    {
+      resolve: "@rsc-labs/medusa-documents-v2",
+      options: {
+      },
+    }
+  ]
 });
