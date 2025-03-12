@@ -4,7 +4,7 @@ import EntryTimestamp from "./entry-timestamp";
 const PosAuth = model.define("pos_auth", {
   id: model.id().primaryKey(),
   nfcCode: model.text().nullable(),
-  code: model.text(),
+  code: model.text().unique(),
   entryTimestamps: model.hasMany(() => EntryTimestamp, {
     mappedBy: "posAuth",
   }),
