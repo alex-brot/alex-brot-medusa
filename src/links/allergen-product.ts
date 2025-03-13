@@ -4,7 +4,7 @@ import allergenModule from "../modules/allergen-module";
 
 export default defineLink(
   {
-    linkable: allergenModule.linkable.allergensProduct,
+    linkable: allergenModule.linkable.allergen,
     isList: true,
   },
   {

@@ -8,7 +8,7 @@ import { Customer, EntryTimestamp } from "../../../../.medusa/types/query-entry-
 
 type EntryTimestampsResponse = EntryTimestamp[];
 
-const EntryPage: React.FC = () => {
+const EntryLogPage: React.FC = () => {
     const { data } = useQuery<EntryTimestampsResponse>({
         queryFn: () => sdk.client.fetch(`/admin/pos-auth/entry-timestamps`),
         queryKey: [["entryTimestamps"]],
@@ -17,7 +17,7 @@ const EntryPage: React.FC = () => {
 
     return (
         <div>
-            <Heading>Access Log</Heading>
+            <Heading>Entry Log</Heading>
 
             <Table className="mt-8">
                 <Table.Header>
@@ -62,8 +62,8 @@ export const EntryTableRow = ({ entry }: { entry: EntryTimestamp }) => {
 };
 
 export const config = defineRouteConfig({
-    label: "Entry",
+    label: "Entry Log",
     icon: ScrollText,
 });
 
-export default EntryPage;
+export default EntryLogPage;

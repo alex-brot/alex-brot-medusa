@@ -137,6 +137,7 @@ const WeeklyOfferPage: React.FC = () => {
 
         const response = mutation.mutate(data);
         console.log(response);
+
     };
 
     const handleDateChange = (date: Date | null, isFrom: Boolean) => {
