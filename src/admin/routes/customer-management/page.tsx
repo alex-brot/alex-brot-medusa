@@ -48,7 +48,7 @@ const CustomerManagementPage: React.FC = () => {
         <Table className="mt-8">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>created_at</Table.HeaderCell>
+              <Table.HeaderCell>Created at</Table.HeaderCell>
               <Table.HeaderCell>Name</Table.HeaderCell>
               <Table.HeaderCell>E-Mail</Table.HeaderCell>
               {/* <Table.HeaderCell>address</Table.HeaderCell> */}
