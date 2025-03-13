@@ -21,7 +21,7 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
 
     const { data } = await query.graph({
         entity: "order_items",
-        fields: ["item.*", "quantity"],
+        fields: ["item.product.*", "quantity"],
         pagination: {
             skip: 0,
             take: 20,
