@@ -9,7 +9,9 @@ import { ProductTable, TableProduct } from "../../components/weekly-offer/Produc
 
 type WeeklyOrdersResponse = {
     quantity: number,
-    item: AdminProduct
+    item: {
+        product: AdminProduct
+    }
 }[];
 
 type GroupedOrders = (AdminProduct & {
@@ -20,10 +22,11 @@ function groupOrdersByItemId(orders: WeeklyOrdersResponse): GroupedOrders {
     const grouped = new Map();
 
     orders.forEach(({ quantity, item }) => {
-        if (grouped.has(item.id)) {
-            grouped.get(item.id)!.totalQuantity += quantity;
+        const { product } = item;
+        if (grouped.has(product.id)) {
+            grouped.get(product.id)!.totalQuantity += quantity;
         } else {
-            grouped.set(item.id, { ...item, totalQuantity: quantity });
+            grouped.set(product.id, { ...product, totalQuantity: quantity });
         }
     });
 
