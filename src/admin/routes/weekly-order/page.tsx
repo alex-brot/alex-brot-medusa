@@ -39,6 +39,7 @@ const WeeklyOrdersPage: React.FC = () => {
     if (!data) return null;
 
     const products = groupOrdersByItemId(data);
+    console.log("Got products:", products)
 
     return (
         <div>
