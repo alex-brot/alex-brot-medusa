@@ -76,7 +76,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       // Create the fulfillment using the createOrderFulfillmentWorkflow
 
       console.log(fulfillmentItems);
-      
+
       const { result: fulfillmentResult } =
         await createOrderFulfillmentWorkflow(req.scope).run({
           input: {

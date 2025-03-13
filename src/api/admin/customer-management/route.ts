@@ -11,7 +11,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
     fields: ["*"],
     filters: {
       $or: [{ metadata: { isVerified: false } }, { metadata: null }],
-    },
+    } as any
   });
   return res.status(200).json(unverifiedCustomers);
 }
@@ -39,8 +39,10 @@ export async function PATCH(
     //   return res.status(404).json({ error: "Customer is already verified" });
     // }
 
-    logger.info(`updating customer ${customer.first_name} ${customer.last_name}`);
-    
+    logger.info(
+      `updating customer ${customer.first_name} ${customer.last_name}`
+    );
+
     await updateCustomersWorkflow(req.scope)
       .run({
         input: {
@@ -75,8 +77,8 @@ export async function PATCH(
   } catch (error) {
     return res.json({ error: "Error verifying customer" });
   }
-    if (!updatedCustomer) {
-        return res.status(500).json({ error: "Error verifying customer" });
-    }
+  if (!updatedCustomer) {
+    return res.status(500).json({ error: "Error verifying customer" });
+  }
   return res.json(updatedCustomer);
 }

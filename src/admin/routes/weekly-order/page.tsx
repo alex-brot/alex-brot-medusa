@@ -11,10 +11,10 @@ import {
 } from "../../components/weekly-offer/ProductTable.tsx";
 
 type WeeklyOrdersResponse = {
-    quantity: number,
-    item: {
-        product: AdminProduct
-    }
+  quantity: number;
+  item: {
+    product: AdminProduct;
+  };
 }[];
 
 type GroupedOrders = (AdminProduct & {
@@ -24,14 +24,14 @@ type GroupedOrders = (AdminProduct & {
 function groupOrdersByItemId(orders: WeeklyOrdersResponse): GroupedOrders {
   const grouped = new Map();
 
-    orders.forEach(({ quantity, item }) => {
-        const { product } = item;
-        if (grouped.has(product.id)) {
-            grouped.get(product.id)!.totalQuantity += quantity;
-        } else {
-            grouped.set(product.id, { ...product, totalQuantity: quantity });
-        }
-    });
+  orders.forEach(({ quantity, item }) => {
+    const { product } = item;
+    if (grouped.has(product.id)) {
+      grouped.get(product.id)!.totalQuantity += quantity;
+    } else {
+      grouped.set(product.id, { ...product, totalQuantity: quantity });
+    }
+  });
 
   return Array.from(grouped.values());
 }
@@ -44,8 +44,8 @@ const WeeklyOrdersPage: React.FC = () => {
 
   if (!data) return null;
 
-    const products = groupOrdersByItemId(data);
-    console.log("Got products:", products)
+  const products = groupOrdersByItemId(data);
+  console.log("Got products:", products);
 
   return (
     <div>

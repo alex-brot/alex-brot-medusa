@@ -6,9 +6,9 @@ import {
   WorkflowResponse,
 } from "@medusajs/framework/workflows-sdk";
 import { z } from "zod";
-import {POS_MODULE} from "../modules/pos-module";
+import { POS_MODULE } from "../modules/pos-module";
 import PosService from "../modules/pos-module/service";
-import {PostAdminCreateEntryTimestamp} from "../api/admin/pos-auth/entry-timestamps/validators";
+import { PostAdminCreateEntryTimestamp } from "../api/admin/pos-auth/entry-timestamps/validators";
 
 type PostAdminCreateEntryTimestampType = z.infer<
   typeof PostAdminCreateEntryTimestamp
@@ -31,7 +31,7 @@ export const createEntryTimeStampStep = createStep(
         },
       });
       posAuthId = data[0].id;
-    } 
+    }
     //TODO:?? fix ??
     //requirements: nfcCode doesn't work???
     else {
@@ -40,7 +40,7 @@ export const createEntryTimeStampStep = createStep(
         fields: ["id"],
         filters: {
           nfcCode: input.code as string,
-        },
+        } as any,
       });
       posAuthId = data[0].id;
     }

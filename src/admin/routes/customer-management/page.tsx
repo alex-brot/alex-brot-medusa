@@ -41,29 +41,27 @@ const CustomerManagementPage: React.FC = () => {
     <div>
       <Heading>Customer Management</Heading>
 
-        <Table className="mt-8">
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Created at</Table.HeaderCell>
-              <Table.HeaderCell>Name</Table.HeaderCell>
-              <Table.HeaderCell>E-Mail</Table.HeaderCell>
-              {/* <Table.HeaderCell>address</Table.HeaderCell> */}
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell>Verify</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {customers &&
-              customers.map((customer) => (
-                <Table.Row key={customer.id}>
-                  <Table.Cell>
-                    {customer.created_at.toLocaleString()}
-                  </Table.Cell>
-                    <Table.Cell>
-                        {customer.first_name} {customer.last_name}
-                    </Table.Cell>
-                  <Table.Cell>{customer.email}</Table.Cell>
-                  {/* <Table.Cell>
+      <Table className="mt-8">
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Created at</Table.HeaderCell>
+            <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>E-Mail</Table.HeaderCell>
+            {/* <Table.HeaderCell>address</Table.HeaderCell> */}
+            <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Verify</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {customers &&
+            customers.map((customer) => (
+              <Table.Row key={customer.id}>
+                <Table.Cell>{customer.created_at.toLocaleString()}</Table.Cell>
+                <Table.Cell>
+                  {customer.first_name} {customer.last_name}
+                </Table.Cell>
+                <Table.Cell>{customer.email}</Table.Cell>
+                {/* <Table.Cell>
                     {customer.addresses && customer.addresses.length > 0
                       ? `${customer.addresses[0]?.address_1} ${customer.addresses[0]?.city} ${customer.addresses[0]?.postal_code}, `
                       : "No address"}

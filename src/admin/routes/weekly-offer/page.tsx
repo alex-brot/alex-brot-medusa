@@ -133,8 +133,10 @@ const WeeklyOfferPage: React.FC = () => {
     if (
       weeklyOffers?.some(
         (offer) =>
-          dateRange.from && dateRange.from <= new Date(offer.end) &&
-          dateRange.to && dateRange.to >= new Date(offer.start)
+          dateRange.from &&
+          dateRange.from <= new Date(offer.end) &&
+          dateRange.to &&
+          dateRange.to >= new Date(offer.start)
       )
     ) {
       toast.error("Invalid Dates", {

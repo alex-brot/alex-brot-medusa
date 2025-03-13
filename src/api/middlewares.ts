@@ -1,5 +1,5 @@
-import {defineMiddlewares} from "@medusajs/medusa";
-import {createFindParams} from "@medusajs/medusa/api/utils/validators";
+import { defineMiddlewares } from "@medusajs/medusa";
+import { createFindParams } from "@medusajs/medusa/api/utils/validators";
 
 export const getProductSchema = createFindParams();
 
@@ -12,7 +12,7 @@ export default defineMiddlewares({
     {
       method: "GET",
       matcher: "/admin/customer-management",
-    }
+    },
     // {
     //   method: "PATCH",
     //   matcher: "/admin/shipping-options/",

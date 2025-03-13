@@ -23,5 +23,5 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
     return res.status(404).json({ message: "No current weekly offer found" });
   }
 
-  return res.json(weeklyOffers.flatMap(offer => offer.products));
+  return res.json(weeklyOffers.flatMap((offer) => offer.products));
 };

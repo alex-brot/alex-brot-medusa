@@ -13,21 +13,17 @@ import {
   linkSalesChannelsToStockLocationWorkflow,
   updateStoresWorkflow,
 } from "@medusajs/medusa/core-flows";
-import {
-  ExecArgs,
-} from "@medusajs/framework/types";
+import { ExecArgs } from "@medusajs/framework/types";
 import {
   ContainerRegistrationKeys,
   Modules,
-  ProductStatus
+  ProductStatus,
 } from "@medusajs/framework/utils";
 
 export default async function seedDemoData({ container }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
-  const remoteLink = container.resolve(
-    ContainerRegistrationKeys.REMOTE_LINK
-  );
-  const query = container.resolve(ContainerRegistrationKeys.QUERY)
+  const remoteLink = container.resolve(ContainerRegistrationKeys.REMOTE_LINK);
+  const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const fulfillmentModuleService = container.resolve(Modules.FULFILLMENT);
   const salesChannelModuleService = container.resolve(Modules.SALES_CHANNEL);
   const storeModuleService = container.resolve(Modules.STORE);
@@ -822,25 +818,25 @@ export default async function seedDemoData({ container }: ExecArgs) {
   logger.info("Seeding inventory levels.");
 
   const { data: inventoryItems } = await query.graph({
-    entity: 'inventory_item',
-    fields: ['id']
-  })
+    entity: "inventory_item",
+    fields: ["id"],
+  });
 
-  const inventoryLevels = []
+  const inventoryLevels = [];
   for (const inventoryItem of inventoryItems) {
     const inventoryLevel = {
       location_id: stockLocation.id,
       stocked_quantity: 1000000,
       inventory_item_id: inventoryItem.id,
-    }
-    inventoryLevels.push(inventoryLevel)
+    };
+    inventoryLevels.push(inventoryLevel);
   }
 
   await createInventoryLevelsWorkflow(container).run({
     input: {
-      inventory_levels: inventoryLevels
+      inventory_levels: inventoryLevels,
     },
-  })
+  });
 
   logger.info("Finished seeding inventory levels data.");
 }

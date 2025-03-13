@@ -1,7 +1,7 @@
 import { MedusaRequest, MedusaResponse, Query } from "@medusajs/framework";
 import { z } from "zod";
 import { PostAdminCreateEntryTimestamp } from "./validators";
-import {createEntryTimeStampWorkflow} from "../../../../workflows/create-entry-timestamp";
+import { createEntryTimeStampWorkflow } from "../../../../workflows/create-entry-timestamp";
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 
 type PostAdminCreateEntryTimestampType = z.infer<
@@ -26,7 +26,7 @@ export const POST = async (
 };
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
-  const query = req.scope.resolve<Query>(ContainerRegistrationKeys.QUERY)
+  const query = req.scope.resolve<Query>(ContainerRegistrationKeys.QUERY);
 
   const { data } = await query.graph({
     entity: "entry_timestamp",
@@ -35,8 +35,8 @@ export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
       skip: 0,
       order: {
         created_at: "desc",
-      }
-    }
-  })
-  return res.json(data)
-}
+      },
+    },
+  });
+  return res.json(data);
+};

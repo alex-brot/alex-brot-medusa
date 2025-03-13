@@ -1,10 +1,15 @@
-import { createStep, createWorkflow, StepResponse, WorkflowResponse, } from "@medusajs/framework/workflows-sdk";
+import {
+  createStep,
+  createWorkflow,
+  StepResponse,
+  WorkflowResponse,
+} from "@medusajs/framework/workflows-sdk";
 import { POS_MODULE } from "../modules/pos-module";
 import PosService from "../modules/pos-module/service";
 
 export type PatchPosAuthCodeType = {
-    id: string;
-    newCode: string;
+  id: string;
+  newCode: string;
 };
 
 export const changePosAuthCodeStep = createStep(
@@ -13,8 +18,8 @@ export const changePosAuthCodeStep = createStep(
     const posAuthService: PosService = container.resolve(POS_MODULE);
 
     const posAuth = await posAuthService.updatePosAuths({
-        id: input.id,
-        code: input.newCode,
+      id: input.id,
+      code: input.newCode,
     });
 
     return new StepResponse(posAuth);

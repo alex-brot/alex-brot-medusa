@@ -7,8 +7,6 @@ import {
 } from "@medusajs/framework/workflows-sdk";
 import { ALLERGEN_MODULE } from "src/modules/allergen-module";
 import productAllergen from "../links/allergen-product";
-import { get } from "http";
-import { log } from "console";
 
 export type LinkAllergenWorkflowInputType = {
   selected_allergen_ids: string[];
@@ -36,7 +34,10 @@ export const linkAllergensStep = createStep(
       return existingLinks;
     };
 
-    const dismissAllLinks = async (allergenIds: string[], productId: string) => {
+    const dismissAllLinks = async (
+      allergenIds: string[],
+      productId: string
+    ) => {
       for (const allergenId of allergenIds) {
         try {
           const response = await remoteLinkService.dismiss({
@@ -52,13 +53,9 @@ export const linkAllergensStep = createStep(
           return error;
         }
       }
-    }
-      
+    };
 
-    const createLink = async (
-      allergenId: string,
-      productId: string,
-    ) => {
+    const createLink = async (allergenId: string, productId: string) => {
       try {
         await remoteLinkService.create({
           [ALLERGEN_MODULE]: {
@@ -75,12 +72,12 @@ export const linkAllergensStep = createStep(
       return true;
     };
 
-    const existingLinks = await getAllLinks(input.product_id)
+    const existingLinks = await getAllLinks(input.product_id);
 
     let ids = existingLinks.map((link) => link.allergen_id);
-    const res = await dismissAllLinks(ids, input.product_id)
+    const res = await dismissAllLinks(ids, input.product_id);
 
-    logger.warn(res)
+    logger.warn(res);
 
     for (const selectedProductId of input.selected_allergen_ids) {
       logger.info("createLink");
