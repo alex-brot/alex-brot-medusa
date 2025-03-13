@@ -16,7 +16,6 @@ type AllergensMutationType = {
   selected_allergen_ids: string[];
 };
 
-
 const ProductWidget = ({ data }: DetailWidgetProps<AdminProduct>) => {
   const productId = data.id;
   const [selectedAllergenIds, setSelectedAllergenIds] = useState<string[]>([]);
@@ -34,18 +33,16 @@ const ProductWidget = ({ data }: DetailWidgetProps<AdminProduct>) => {
     },
   });
 
-  
   const { data: allAllergensResponse } = useQuery<any>({
     queryFn: () => sdk.client.fetch("/admin/allergens"),
     queryKey: [["all_allergens"]],
   });
 
-   const allAlergens: Allergen[] = allAllergensResponse
-     ? allAllergensResponse[0]
-     : [];
+  const allAlergens: Allergen[] = allAllergensResponse
+    ? allAllergensResponse[0]
+    : [];
 
-
-   console.log(allAllergensResponse);
+  console.log(allAllergensResponse);
   //TODO: create Type for response
   const { data: usedAllergensResponse } = useQuery<any>({
     queryFn: () => sdk.client.fetch("/admin/allergens/" + productId),
@@ -56,11 +53,12 @@ const ProductWidget = ({ data }: DetailWidgetProps<AdminProduct>) => {
     ? usedAllergensResponse[0].allergens
     : [];
 
-    
-    console.log(usedAllergens);
-  
+  console.log(usedAllergens);
+
   const combinedAllergens = allAlergens.map((allergen) => {
-    const isAlreadySelected = usedAllergens.find((p) => p.id === allergen.id) ? true : false;
+    const isAlreadySelected = usedAllergens.find((p) => p.id === allergen.id)
+      ? true
+      : false;
     return { ...allergen, isAlreadySelected };
   });
 
@@ -71,8 +69,6 @@ const ProductWidget = ({ data }: DetailWidgetProps<AdminProduct>) => {
   }, [usedAllergens]);
   console.log(usedAllergens);
 
-  
-  
   const toggleSelected = (id: string) => {
     if (selectedAllergenIds.includes(id)) {
       setSelectedAllergenIds(selectedAllergenIds.filter((p) => p !== id));
@@ -80,7 +76,6 @@ const ProductWidget = ({ data }: DetailWidgetProps<AdminProduct>) => {
       setSelectedAllergenIds([...selectedAllergenIds, id]);
     }
     console.log(selectedAllergenIds);
-    
   };
 
   const handleSubmit = async () => {
@@ -119,7 +114,11 @@ const ProductWidget = ({ data }: DetailWidgetProps<AdminProduct>) => {
               ))}
             </Table.Body>
           </Table>
-          <Button className="w-[50%]" size="large" onClick={() => handleSubmit()}>
+          <Button
+            className="w-[50%]"
+            size="large"
+            onClick={() => handleSubmit()}
+          >
             Submit
           </Button>
         </div>
@@ -144,14 +143,11 @@ const AllergenTableRow = ({
   isAlreadySelected,
   toggleSelected,
 }: AllergenProductRowProp) => {
-  
-  
   const [isSelected, setIsSelected] = useState(isAlreadySelected);
 
   useEffect(() => {
     setIsSelected(isAlreadySelected);
   }, [isAlreadySelected]);
-
 
   const handleSelected = () => {
     const switchedState = !isSelected;
@@ -159,8 +155,6 @@ const AllergenTableRow = ({
 
     toggleSelected!(allergen.id);
   };
-
-  
 
   return (
     <Table.Row>

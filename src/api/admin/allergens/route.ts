@@ -77,10 +77,9 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
   return res.status(201).json({ message: "Allergens created" });
 };
 
+export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
+  const allergenService = req.scope.resolve(ALLERGEN_MODULE);
+  const allergens = await allergenService.listAndCountAllergens();
 
-export const GET = async (req:MedusaRequest, res: MedusaResponse) => {
-    const allergenService = req.scope.resolve(ALLERGEN_MODULE);
-    const allergens = await allergenService.listAndCountAllergens()
-
-    return res.status(200).json(allergens)
-}
+  return res.status(200).json(allergens);
+};

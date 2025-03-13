@@ -8,27 +8,29 @@ import { sdk } from "../lib/sdk";
 
 // The widget
 const PickUpWidget = () => {
+  const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
 
-    const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]); 
+  const { data: shippingOptionsResponse } = useQuery<{
+    shipping_options: ShippingOption[];
+  }>({
+    queryKey: ["shipping-options"],
+    queryFn: () => sdk.client.fetch("/admin/shipping-options"),
+  });
 
-    const { data: shippingOptionsResponse } = useQuery<{ shipping_options: ShippingOption[] }>({
-      queryKey: ["shipping-options"],
-      queryFn: () => sdk.client.fetch("/admin/shipping-options"),
-    });
+  useEffect(() => {
+    if (shippingOptionsResponse) {
+      console.log(shippingOptionsResponse.shipping_options);
 
-    useEffect(() => {
-        if (shippingOptionsResponse) {
-            console.log(shippingOptionsResponse.shipping_options);
-            
-            setShippingOptions(shippingOptionsResponse.shipping_options);
-        }
+      setShippingOptions(shippingOptionsResponse.shipping_options);
     }
-    , [shippingOptionsResponse]);
+  }, [shippingOptionsResponse]);
 
   return (
     <Container className="divide-y p-0">
       <div className="flex flex-col justify-between px-6 py-4">
-        <Heading className="mb-2" level="h2">Product Widget</Heading>
+        <Heading className="mb-2" level="h2">
+          Product Widget
+        </Heading>
         <Table>
           <Table.Header>
             <Table.Row>
@@ -42,7 +44,7 @@ const PickUpWidget = () => {
           </Table.Header>
           <Table.Body>
             {shippingOptions.map((shippingOption) => (
-                <PickUpTableCell shippingOption={shippingOption} />
+              <PickUpTableCell shippingOption={shippingOption} />
             ))}
           </Table.Body>
         </Table>

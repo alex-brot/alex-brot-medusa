@@ -1,20 +1,42 @@
 import { Button, Input, Table } from "@medusajs/ui";
-import React, { Component, useState } from "react";
+import { useState } from "react";
 import { ShippingOption } from "../../../../.medusa/types/query-entry-points";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { sdk } from "../../lib/sdk";
 import { UpdateShippingOptionDTO } from "@medusajs/framework/types";
-import { log } from "console";
 
 type PickUpTableCellProps = {
-    shippingOption: ShippingOption
-}
+  shippingOption: ShippingOption;
+};
 
-const PickUpTableCell = ({shippingOption} : PickUpTableCellProps) => {
-  const [street, setStreet] = useState<string>(shippingOption?.data?.address?.street ? shippingOption?.data?.address?.street : "");
-  const [city, setCity] = useState<string>(shippingOption?.data?.address?.city ? shippingOption?.data?.address?.city : "");
-  const [zip, setZip] = useState<string>(shippingOption?.data?.address?.zip ? shippingOption?.data?.address?.zip : "");
-  const [country, setCountry] = useState<string>(shippingOption?.data?.address?.country ? shippingOption?.data?.address?.country : "");
+type Address = {
+  street: string;
+  city: string;
+  zip: string;
+  country: string;
+};
+
+const PickUpTableCell = ({ shippingOption }: PickUpTableCellProps) => {
+  const [street, setStreet] = useState<string>(
+    (shippingOption?.data?.address as Address).street
+      ? (shippingOption?.data?.address as Address).street
+      : ""
+  );
+  const [city, setCity] = useState<string>(
+    (shippingOption?.data?.address as Address).city
+      ? (shippingOption?.data?.address as Address).city
+      : ""
+  );
+  const [zip, setZip] = useState<string>(
+    (shippingOption?.data?.address as Address).zip
+      ? (shippingOption?.data?.address as Address).zip
+      : ""
+  );
+  const [country, setCountry] = useState<string>(
+    (shippingOption?.data?.address as Address).country
+      ? (shippingOption?.data?.address as Address).country
+      : ""
+  );
   const [editId, setEditId] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
@@ -26,12 +48,12 @@ const PickUpTableCell = ({shippingOption} : PickUpTableCellProps) => {
       }),
     onSuccess: () => {
       console.log("success");
-      
+
       queryClient.invalidateQueries({ queryKey: ["shipping-options"] });
     },
     onError: (error) => {
       console.error("error", error);
-    }
+    },
   });
 
   const handleButtonClick = async () => {
@@ -39,31 +61,26 @@ const PickUpTableCell = ({shippingOption} : PickUpTableCellProps) => {
       // Save
 
       const data = {
-          address: {
-            street: street,
-            city: city,
-            zip: zip,
-            country: country,
-          },
+        address: {
+          street: street,
+          city: city,
+          zip: zip,
+          country: country,
+        },
       };
 
+      const updatedShippingOption: UpdateShippingOptionDTO = {
+        id: shippingOption.id,
+        data: data,
+      };
 
-
-    const updatedShippingOption: UpdateShippingOptionDTO = {
-      id: shippingOption.id,
-      data: data,
-    };
-
-    const body = {
-      id: shippingOption.id,
-      updatedShippingOption: updatedShippingOption,
-    }
-
-
+      const body = {
+        id: shippingOption.id,
+        updatedShippingOption: updatedShippingOption,
+      };
 
       mutation.mutate(body);
-    
-      
+
       setEditId(null);
     } else {
       // Edit
